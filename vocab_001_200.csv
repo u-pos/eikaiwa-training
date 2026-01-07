@@ -2,100 +2,200 @@ id,expression,meaning,example_en,example_ja
 1,figure out,理解する・解決する,I finally figured out what was wrong.,やっと何が問題だったのか分かった。
 2,work out,うまくいく,Things worked out better than expected.,思ったよりうまくいった。
 3,deal with,対処する,I’ll deal with it later.,後で対処するよ。
-4,handle,対処する,She handled the situation well.,彼女はその状況をうまく対処した。
+4,handle,対処する,She handled the situation well.,彼女はその状況にうまく対処した。
 5,bring up,話題に出す,He brought up something interesting.,彼は面白い話題を出した。
 6,point out,指摘する,She pointed out a mistake.,彼女はミスを指摘した。
-7,run into,偶然会う,I ran into my boss at the store.,店で上司に偶然会った。
-8,end up,最終的に〜になる,We ended up canceling the plan.,結局その計画は中止になった。
-9,mess up,失敗する,I messed up the presentation.,プレゼンを失敗した。
-10,catch up,近況を話す,Let’s catch up over coffee.,コーヒーでも飲みながら近況話そう。
+7,run into,偶然会う,I ran into an old friend.,昔の友人に偶然会った。
+8,end up,最終的に?になる,We ended up staying home.,結局家にいることになった。
+9,mess up,失敗する,I really messed up.,本当に失敗した。
+10,catch up,近況を話す,Let’s catch up soon.,近いうちに近況話そう。
 11,move on,切り替える,It’s time to move on.,もう切り替えよう。
-12,stick with,続ける,I’ll stick with my decision.,自分の決断を貫く。
+12,stick with,続ける,I’ll stick with my plan.,自分の計画を続ける。
 13,give up,諦める,Don’t give up yet.,まだ諦めるな。
-14,put off,先延ばしにする,He put off the meeting.,彼は会議を先延ばしにした。
-15,turn out,結果的に〜だと分かる,It turned out to be true.,結果的に本当だった。
-16,set up,準備する,I’ll set up the room.,部屋を準備する。
-17,calm down,落ち着く,Just calm down for a second.,ちょっと落ち着いて。
-18,break down,崩れる,She broke down in tears.,彼女は泣き崩れた。
-19,call out,指摘する,He called out the unfair rule.,彼は不公平な規則を指摘した。
-20,back off,引く,He backed off after that.,彼はその後引いた。
-21,assume,推測する,I assumed you knew.,君は知ってると思ってた。
-22,guess,推測する,I guess he’s busy.,彼は忙しいんだと思う。
-23,doubt,疑う,I doubt that’s true.,それは本当だとは思えない。
-24,expect,予想する,I didn’t expect that.,それは予想してなかった。
-25,mean,意味する,What do you mean by that?,それどういう意味？
+14,put off,先延ばしにする,He put it off again.,また先延ばしにした。
+15,turn out,結果的に?だと分かる,It turned out to be true.,結果的に本当だった。
+16,set up,準備する,I’ll set it up tonight.,今夜準備する。
+17,calm down,落ち着く,Just calm down.,落ち着いて。
+18,break down,崩れる,She broke down crying.,彼女は泣き崩れた。
+19,call out,指摘する,He called out the problem.,彼は問題を指摘した。
+20,back off,引く,He backed off.,彼は引いた。
+21,assume,推測する,I assumed you knew.,君は知っていると思っていた。
+22,guess,推測する,I guess he’s busy.,彼は忙しいと思う。
+23,doubt,疑う,I doubt that.,それは疑わしい。
+24,expect,予想する,I didn’t expect this.,これは予想外だった。
+25,mean,意味する,What do you mean?,どういう意味？
 26,agree,同意する,I agree with you.,君に同意する。
-27,disagree,反対する,I disagree on that point.,その点には反対だ。
-28,lean toward,〜寄りだ,I’m leaning toward staying home.,家にいる方に傾いてる。
-29,feel like,〜な気がする,I feel like eating pizza.,ピザが食べたい気分。
+27,disagree,反対する,I disagree with that.,それには反対だ。
+28,lean toward,?寄りだ,I’m leaning toward yes.,賛成寄りだ。
+29,feel like,?な気がする,I feel like resting.,休みたい気分だ。
 30,care about,気にかける,I care about the result.,結果を気にしている。
-31,matter,重要である,It doesn’t matter to me.,私には重要じゃない。
-32,depend on,次第である,It depends on the weather.,天気次第だ。
-33,prefer,好む,I prefer tea over coffee.,コーヒーより紅茶が好き。
-34,mind,気にする,Do you mind if I ask?,聞いてもいい？
-35,consider,検討する,I’ll consider your idea.,君の案を検討する。
-36,decide,決める,I decided to go.,行くことに決めた。
-37,realize,気づく,I just realized something.,今気づいた。
-38,admit,認める,He admitted his mistake.,彼はミスを認めた。
-39,suggest,提案する,I suggest we leave early.,早めに出よう。
-40,recommend,勧める,I recommend this place.,この店おすすめ。
-41,annoyed,イラついた,I’m annoyed by the noise.,騒音にイラついてる。
-42,frustrated,不満な,I’m frustrated with the delay.,遅れに不満だ。
-43,relieved,安心した,I felt relieved after that.,その後安心した。
-44,confused,混乱した,I’m confused right now.,今混乱している。
-45,excited,ワクワクした,I’m excited about the trip.,旅行が楽しみだ。
-46,bummed,落ち込んだ,He looked really bummed.,彼はかなり落ち込んでいた。
-47,stressed,ストレスがある,I’m stressed lately.,最近ストレスが多い。
-48,overwhelmed,圧倒された,I’m overwhelmed with work.,仕事に追われている。
-49,pumped,テンション高い,I’m pumped for tonight.,今夜楽しみでテンション高い。
-50,awkward,気まずい,That moment was awkward.,その瞬間は気まずかった。
-51,chill,落ち着いた,He’s pretty chill.,彼は落ち着いてる。
-52,fed up,うんざりした,I’m fed up with this.,もううんざりだ。
-53,burned out,燃え尽きた,I feel burned out.,燃え尽きた感じだ。
-54,down,気分が落ちてる,I’m feeling down today.,今日は気分が落ちてる。
-55,into,〜にハマってる,I’m into photography.,写真にハマってる。
-56,over it,もういい,I’m over it.,もうどうでもいい。
-57,nervous,緊張した,I’m nervous about it.,それが不安だ。
-58,embarrassed,恥ずかしい,I was embarrassed.,恥ずかしかった。
-59,curious,興味がある,I’m curious about that.,それに興味がある。
-60,confident,自信がある,I feel confident now.,今は自信がある。
-61,vibe,雰囲気,I like the vibe here.,ここの雰囲気が好き。
-62,point,要点,That’s a good point.,それはいい指摘だ。
-63,thing,こと,That’s my thing.,それが自分の得意分野。
+31,matter,重要である,It doesn’t matter.,重要じゃない。
+32,depend on,次第である,It depends on timing.,タイミング次第だ。
+33,prefer,好む,I prefer tea.,紅茶が好きだ。
+34,mind,気にする,Do you mind?,気にする？
+35,consider,検討する,I’ll consider it.,検討する。
+36,decide,決める,I decided to go.,行くと決めた。
+37,realize,気づく,I just realized.,今気づいた。
+38,admit,認める,He admitted it.,彼は認めた。
+39,suggest,提案する,I suggest waiting.,待つことを提案する。
+40,recommend,勧める,I recommend this.,これおすすめ。
+41,annoyed,イラついた,I’m annoyed.,イラついている。
+42,frustrated,不満な,I’m frustrated.,不満だ。
+43,relieved,安心した,I feel relieved.,安心した。
+44,confused,混乱した,I’m confused.,混乱している。
+45,excited,ワクワクした,I’m excited.,ワクワクしている。
+46,bummed,落ち込んだ,He looks bummed.,彼は落ち込んでいる。
+47,stressed,ストレスがある,I’m stressed.,ストレスがある。
+48,overwhelmed,圧倒された,I’m overwhelmed.,手一杯だ。
+49,pumped,テンション高い,I’m pumped.,テンション高い。
+50,awkward,気まずい,That was awkward.,気まずかった。
+51,chill,落ち着いた,He’s chill.,彼は落ち着いている。
+52,fed up,うんざりした,I’m fed up.,うんざりだ。
+53,burned out,燃え尽きた,I’m burned out.,燃え尽きた。
+54,down,気分が落ちている,I’m feeling down.,気分が落ちている。
+55,into,?にハマっている,I’m into music.,音楽にハマっている。
+56,over it,もういい,I’m over it.,もういい。
+57,nervous,緊張した,I’m nervous.,緊張している。
+58,embarrassed,恥ずかしい,I’m embarrassed.,恥ずかしい。
+59,curious,興味がある,I’m curious.,興味がある。
+60,confident,自信がある,I feel confident.,自信がある。
+61,vibe,雰囲気,I like the vibe.,雰囲気が好き。
+62,point,要点,That’s the point.,それが要点だ。
+63,thing,こと,That’s a thing.,そういうことだ。
 64,stuff,いろいろ,I have stuff to do.,やることがある。
-65,situation,状況,It’s a tough situation.,厳しい状況だ。
-66,context,文脈,You need more context.,文脈が必要だ。
+65,situation,状況,Tough situation.,厳しい状況だ。
+66,context,文脈,Need more context.,文脈が必要だ。
 67,perspective,視点,From my perspective…,私の視点では。
 68,reason,理由,There’s a reason.,理由がある。
 69,issue,問題,That’s an issue.,それは問題だ。
-70,deal,取引・状況,It’s a big deal.,大きな問題だ。
-71,option,選択肢,We have options.,選択肢はある。
-72,balance,バランス,Work-life balance matters.,仕事と生活のバランスは大事。
-73,priority,優先事項,That’s my priority.,それが最優先。
-74,experience,経験,It was a great experience.,良い経験だった。
-75,outcome,結果,The outcome was good.,結果は良かった。
-76,kind of,ちょっと,I’m kind of tired.,ちょっと疲れてる。
+70,deal,状況,Big deal.,大事なことだ。
+71,option,選択肢,We have options.,選択肢がある。
+72,balance,バランス,Find balance.,バランスを取ろう。
+73,priority,優先事項,That’s my priority.,それが最優先だ。
+74,experience,経験,Great experience.,良い経験だ。
+75,outcome,結果,Good outcome.,良い結果だ。
+76,kind of,ちょっと,I’m kind of tired.,少し疲れている。
 77,sort of,なんとなく,I sort of agree.,なんとなく同意。
-78,pretty much,ほぼ,That’s pretty much it.,だいたいそんな感じ。
+78,pretty much,ほぼ,That’s pretty much it.,ほぼそれだ。
 79,basically,要するに,Basically, yes.,要するにそう。
 80,honestly,正直に言うと,Honestly, I don’t know.,正直分からない。
-81,probably,たぶん,I’ll probably go.,たぶん行く。
-82,maybe,もしかして,Maybe later.,後でかも。
-83,I guess,〜かな,I guess so.,そうかな。
+81,probably,たぶん,Probably later.,たぶん後で。
+82,maybe,もしかして,Maybe tomorrow.,明日かも。
+83,I guess,?かな,I guess so.,そうかな。
 84,I mean,つまり,I mean, it’s fine.,つまり問題ない。
-85,you know,ほら,you know what I mean?,言ってる意味分かる？
-86,actually,実は,Actually, I changed my mind.,実は考え変えた。
-87,technically,厳密には,Technically, yes.,厳密にはそう。
-88,apparently,どうやら,Apparently, he left.,どうやら彼は出た。
-89,roughly,だいたい,Roughly speaking…,ざっくり言うと。
-90,mostly,ほとんど,Mostly done.,ほぼ終わった。
-91,awesome,最高,That was awesome.,最高だった。
-92,cool,いいね,Cool, let’s go.,いいね、行こう。
-93,weird,変だ,That’s weird.,それ変だね。
+85,you know,ほら,you know what I mean?,分かるでしょ？
+86,actually,実は,Actually, no.,実は違う。
+87,technically,厳密には,Technically yes.,厳密にはそう。
+88,apparently,どうやら,Apparently he left.,どうやら彼は出た。
+89,roughly,だいたい,Roughly ten.,だいたい10だ。
+90,mostly,ほとんど,Mostly done.,ほぼ終わり。
+91,awesome,最高,That’s awesome.,最高だ。
+92,cool,いいね,Cool, thanks.,いいね、ありがとう。
+93,weird,変だ,That’s weird.,それ変だ。
 94,crazy,すごい,That’s crazy.,それすごい。
 95,lame,ダサい,That’s lame.,それダサい。
-96,solid,しっかりした,That’s a solid plan.,堅実な計画だ。
-97,sketchy,怪しい,That sounds sketchy.,それ怪しい。
+96,solid,しっかりした,Solid plan.,堅実な計画だ。
+97,sketchy,怪しい,That’s sketchy.,それ怪しい。
 98,random,唐突な,That was random.,唐突だった。
 99,dope,かっこいい,That’s dope.,それかっこいい。
-100,meh,微妙,Meh, it’s okay.,微妙かな。
+100,meh,微妙,Meh, okay.,微妙だな。
+101,hang out,遊ぶ,Let’s hang out.,遊ぼう。
+102,check out,見てみる,Check it out.,見てみて。
+103,look forward to,楽しみにする,I’m looking forward to it.,楽しみにしている。
+104,show up,現れる,He didn’t show up.,彼は来なかった。
+105,stay up,夜更かしする,I stayed up late.,夜更かしした。
+106,wrap up,締める,Let’s wrap up.,締めよう。
+107,miss out,逃す,I don’t want to miss out.,逃したくない。
+108,make it,間に合う,I made it.,間に合った。
+109,pass out,寝落ちする,I passed out.,寝落ちした。
+110,hold on,待つ,Hold on.,待って。
+111,cut back on,減らす,Cut back on sugar.,砂糖を減らす。
+112,drop by,立ち寄る,I’ll drop by.,立ち寄るよ。
+113,fill in,補足する,Let me fill you in.,補足するね。
+114,get along,仲良くする,We get along.,仲がいい。
+115,get back to,返事する,I’ll get back to you.,後で返事する。
+116,go through,経験する,I went through a lot.,大変だった。
+117,keep up,ついていく,I can’t keep up.,ついていけない。
+118,let go,手放す,Let it go.,手放して。
+119,open up,心を開く,He opened up.,彼は心を開いた。
+120,pull off,やり遂げる,She pulled it off.,彼女はやり遂げた。
+121,reach out,連絡する,I reached out.,連絡した。
+122,settle down,落ち着く,He settled down.,彼は落ち着いた。
+123,turn down,断る,I turned it down.,断った。
+124,turn up,現れる,He turned up.,彼が現れた。
+125,wait on,待つ,I’m waiting on it.,それを待っている。
+126,wind down,落ち着く,Let’s wind down.,落ち着こう。
+127,work on,取り組む,I’m working on it.,取り組んでいる。
+128,zone out,ぼーっとする,I zoned out.,ぼーっとした。
+129,approach,取り組み方,That approach works.,そのやり方でいける。
+130,attitude,態度,Good attitude.,いい態度だ。
+131,background,背景,What’s your background?,経歴は？
+132,boundary,境界,Set boundaries.,境界線を引こう。
+133,challenge,課題,It’s a challenge.,課題だ。
+134,choice,選択,Your choice.,君の選択だ。
+135,comfort zone,安心領域,Leave your comfort zone.,安心領域を出よう。
+136,commitment,約束,Big commitment.,大きな約束だ。
+137,consequence,結果,Face consequences.,結果を受け入れろ。
+138,conversation,会話,Good conversation.,良い会話だ。
+139,decision,決断,Tough decision.,難しい決断だ。
+140,direction,方向性,Need direction.,方向性が必要。
+141,effort,努力,It takes effort.,努力が必要。
+142,energy,元気,I have no energy.,元気がない。
+143,expectation,期待,Lower expectations.,期待を下げよう。
+144,feedback,意見,Thanks for feedback.,意見ありがとう。
+145,focus,集中,Stay focused.,集中して。
+146,growth,成長,Personal growth.,個人の成長。
+147,habit,習慣,Bad habit.,悪い習慣。
+148,impact,影響,Big impact.,大きな影響。
+149,kind of a lot,結構多い,That’s kind of a lot.,結構多いね。
+150,a bit tricky,少し難しい,It’s tricky.,少し難しい。
+151,no big deal,大したことない,No big deal.,大したことない。
+152,pretty sure,かなり確信,I’m pretty sure.,かなり確信してる。
+153,so far,今のところ,So far so good.,今のところ順調。
+154,at least,少なくとも,At least try.,少なくとも試せ。
+155,right away,すぐに,I’ll do it right away.,すぐやる。
+156,in advance,事前に,Thanks in advance.,事前にありがとう。
+157,for now,今のところ,That’s fine for now.,今はそれでいい。
+158,in the end,結局,In the end, it worked.,結局うまくいった。
+159,on purpose,わざと,Did it on purpose.,わざとやった。
+160,by accident,偶然,By accident.,偶然だ。
+161,all of a sudden,突然,All of a sudden, it stopped.,突然止まった。
+162,in general,一般的に,In general, yes.,一般的にはそう。
+163,more or less,だいたい,More or less done.,だいたい終わり。
+164,once in a while,たまに,Once in a while.,たまに。
+165,sooner or later,遅かれ早かれ,Sooner or later.,いずれ。
+166,up to you,任せる,Up to you.,君次第。
+167,for real,マジで,For real?,マジで？
+168,no way,ありえない,No way!,ありえない。
+169,I get it,分かる,I get it now.,今分かった。
+170,fair enough,それも一理ある,Fair enough.,それも一理ある。
+171,sounds good,いいね,Sounds good.,いいね。
+172,that works,それでOK,That works.,それでOK。
+173,I’m down,賛成,I’m down.,賛成。
+174,what’s going on,どうした,What’s going on?,どうした？
+175,to be honest,正直言うと,To be honest, I’m tired.,正直疲れた。
+176,low-key,控えめに,Low-key fun.,控えめに楽しい。
+177,high-key,ガチで,High-key excited.,ガチで楽しみ。
+178,straight up,正直に,Straight up, no.,正直無理。
+179,legit,本物,That’s legit.,それ本物。
+180,on point,的確,That’s on point.,的確だ。
+181,whatever,どうでもいい,Whatever.,どうでもいい。
+182,seriously,マジで,Seriously?,マジで？
+183,chill out,落ち着く,Chill out.,落ち着け。
+184,hit me up,連絡して,Hit me up.,連絡して。
+185,hang tight,待ってて,Hang tight.,待ってて。
+186,real quick,すぐに,Real quick.,すぐに。
+187,no rush,急がなくていい,No rush.,急がなくていい。
+188,you bet,もちろん,You bet.,もちろん。
+189,close enough,だいたいOK,Close enough.,だいたいOK。
+190,not bad,悪くない,Not bad.,悪くない。
+191,way better,かなり良い,Way better.,かなり良い。
+192,a bit off,少し変,Feels off.,少し変だ。
+193,deal breaker,致命的条件,That’s a deal breaker.,それは致命的。
+194,worth it,価値がある,It’s worth it.,価値がある。
+195,make sense of,理解する,Make sense of it.,理解する。
+196,go for it,やってみな,Go for it.,やってみな。
+197,call it a day,今日は終わり,Call it a day.,今日は終わり。
+198,come up with,考え出す,Come up with an idea.,案を考える。
+199,check in,様子を見る,Check in later.,後で様子見る。
+200,fall apart,崩れる,It fell apart.,崩れた。
