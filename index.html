@@ -11,7 +11,7 @@
       --accent:#22c55e; --blue:#2563eb; --warn:#f59e0b; --danger:#b91c1c;
     }
 
-    /* ===== 横スクロール根絶 ===== */
+    /* 横スクロール根絶 */
     html, body{
       width:100%;
       max-width:100%;
@@ -23,7 +23,11 @@
     @supports (overflow: clip){
       html, body{ overflow-x: clip !important; }
     }
-    *{ box-sizing:border-box; max-width:100%; }
+    *, *::before, *::after{
+      box-sizing:border-box;
+      max-width:100%;
+      min-width:0;
+    }
 
     body{
       margin:0;
@@ -32,7 +36,6 @@
       color:var(--fg);
     }
 
-    /* iOSの青文字化を殺す */
     a, button, .choice{
       color: var(--fg) !important;
       -webkit-text-fill-color: var(--fg);
@@ -41,7 +44,7 @@
     button{
       appearance:none; -webkit-appearance:none;
       -webkit-tap-highlight-color: transparent;
-      margin:0; /* ← iOSの微妙なはみ出し要因を消す */
+      margin:0;
     }
 
     .app{
@@ -52,6 +55,7 @@
       flex-direction:column;
       gap:10px;
       contain: layout paint;
+      overflow:hidden; /* 最終保険 */
     }
 
     .topbar{
@@ -62,12 +66,17 @@
       padding: 10px 12px;
       display:flex;
       align-items:center;
-      justify-content:space-between;
       gap:10px;
       overflow:hidden;
       contain: paint;
     }
-    .titleBox{ min-width:0; }
+
+    /* ★ vwを完全撤去：ここが横はみ出しの原因になりやすい */
+    .titleBox{
+      flex: 1 1 auto;
+      min-width:0;
+      overflow:hidden;
+    }
     .title{
       margin:0;
       font-size:16px;
@@ -76,7 +85,7 @@
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
-      max-width: 72vw;
+      max-width:100%;
     }
     .status{
       margin-top:4px;
@@ -86,7 +95,7 @@
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
-      max-width: 72vw;
+      max-width:100%;
     }
 
     .btn{
@@ -99,7 +108,6 @@
       cursor:pointer;
       user-select:none;
       flex: 0 0 auto;
-      min-width:0;
     }
     .btn.primary{ background:#16a34a; border-color:#16a34a; }
     .btn.blue{ background:var(--blue); border-color:var(--blue); }
@@ -108,8 +116,10 @@
 
     .hamburger{
       width: 36px;
-      padding: 7px 7px;
+      height: 36px;
+      padding: 7px;
       display:grid; place-items:center;
+      flex: 0 0 36px;
     }
     .hamburger span{
       width:18px; height:2px; background:var(--fg); border-radius:10px; position:relative;
@@ -144,48 +154,35 @@
       overflow-wrap:anywhere;
     }
 
-    /* ✅ ここが本丸：解答前の4択を“伸ばさない” */
+    /* 解答前の4択：伸びない＆小さい */
     .choices{
       width:100%;
       display:grid;
       gap:6px;
-
-      /* ★ 伸びて空き高さを配らない */
-      flex: 0 0 auto;
-
-      /* ★ Gridが勝手に縦伸びするのを止める */
-      align-content: start;           /* ← デフォのstretchを潰す */
-      grid-auto-rows: min-content;    /* ← 行の高さは内容分だけ */
-
+      flex: 0 0 auto;              /* 伸ばさない */
+      align-content: start;         /* 余白を配らない */
+      grid-auto-rows: min-content;  /* 行の高さは内容分 */
       overflow:hidden;
       contain: paint;
     }
-
     .choice{
       display:block;
       width:100%;
-      max-width:100%;
-      min-width:0;
-
-      /* さらに小型化 */
       padding: 7px 10px;
       border-radius: 10px;
-
       background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.12);
-
       font-size: 12.5px;
       line-height: 1.10;
-
+      text-align:left;
       word-break: break-word;
       overflow-wrap:anywhere;
       overflow:hidden;
-      text-align:left;
     }
     .choice:focus{ outline:none; }
     .choice:active{ transform: translateY(1px); }
 
-    /* ===== 解答後（ここは維持） ===== */
+    /* 解答後（現状の良いレイアウト維持） */
     .answer{
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.14);
@@ -213,6 +210,8 @@
       font-size:11px;
       white-space:nowrap;
       max-width:100%;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
     .dot{ width:8px; height:8px; border-radius:999px; background: var(--blue); }
     .dot.green{ background: var(--accent); }
@@ -229,13 +228,16 @@
     }
     .answerBlock b{ font-size: 14px; }
 
+    /* ★ボタン横はみ出し保険：width固定 */
     .bottomActions{
       width:100%;
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:10px;
       margin-top:2px;
+      overflow:hidden;
     }
+    .bottomActions .btn{ width:100%; }
 
     /* Drawer */
     .drawerOverlay{
