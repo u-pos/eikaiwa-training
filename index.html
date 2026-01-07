@@ -26,8 +26,13 @@
       background:var(--bg);
       color:var(--fg);
     }
-    /* iOSの青リンク化を殺す */
-    a, button, .choice{ color: var(--fg) !important; -webkit-text-fill-color: var(--fg); }
+
+    /* iOSの青化/右はみ出し対策 */
+    a, button, .choice{
+      color: var(--fg) !important;
+      -webkit-text-fill-color: var(--fg);
+      text-decoration: none;
+    }
     button{ -webkit-tap-highlight-color: transparent; }
 
     .app{
@@ -47,13 +52,19 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
+      overflow:hidden; /* 右はみ出し殺す */
     }
+    .titleBox{ min-width:0; }
     .title{
       margin:0;
       font-size:16px;
       font-weight:900;
       line-height:1.1;
       letter-spacing:.2px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 70vw;
     }
     .status{
       margin-top:4px;
@@ -63,7 +74,7 @@
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
-      max-width: 64vw;
+      max-width: 70vw;
     }
 
     .btn{
@@ -71,11 +82,12 @@
       border:1px solid var(--line);
       background:var(--card2);
       color:var(--fg);
-      padding: 9px 10px;
+      padding: 8px 10px;
       font-size:13px;
-      min-height: 38px;   /* ← 小さめ */
+      min-height: 36px;
       cursor:pointer;
       user-select:none;
+      flex: 0 0 auto;
     }
     .btn.primary{ background:#16a34a; border-color:#16a34a; }
     .btn.blue{ background:var(--blue); border-color:var(--blue); }
@@ -83,8 +95,8 @@
     .btn.danger{ background:var(--danger); border-color:var(--danger); }
 
     .hamburger{
-      width: 38px;
-      padding: 8px 8px;
+      width: 36px;
+      padding: 7px 7px;
       display:grid; place-items:center;
     }
     .hamburger span{
@@ -105,54 +117,55 @@
       padding: 10px 12px;
       display:flex;
       flex-direction:column;
-      gap:8px;             /* ← 詰める */
+      gap:8px;
       flex:1 1 auto;
       min-height:0;
+      overflow:hidden; /* 右はみ出し殺す */
     }
-    .label{ font-size:11px; color:var(--muted); }
 
+    .label{ font-size:11px; color:var(--muted); }
     .prompt{
-      font-size:26px;      /* ← 少し小さく */
+      font-size:26px;
       font-weight:950;
       line-height:1.08;
       word-break:break-word;
       overflow-wrap:anywhere;
     }
 
+    /* 選択肢はとにかく小さく、はみ出さない */
     .choices{
       display:grid;
-      gap:8px;
+      gap:6px;
       flex:1 1 auto;
       min-height:0;
+      overflow:hidden; /* はみ出し殺す */
     }
     .choice{
-      width:100%;
+      display:block;
+      inline-size:100%;    /* iOSでwidthより安定 */
+      max-inline-size:100%;
+      min-width:0;
       text-align:left;
-      padding: 10px 12px;   /* ← 小さく */
+      padding: 9px 10px;   /* 小さく */
       background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.12);
-      border-radius: 14px;
-      font-size: 14px;      /* ← 小さく */
+      border-radius: 12px; /* 少し小さく */
+      font-size: 13px;     /* 小さく */
       line-height: 1.15;
       word-break: break-word;
       overflow-wrap:anywhere;
+      overflow:hidden;     /* はみ出し殺す */
     }
     .choice:active{ transform: translateY(1px); }
 
-    .bottomActions{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      margin-top:2px;
-    }
-
-    /* 答えはコンパクト表示＋詳細は折りたたみ */
+    /* 答え表示（例文は常に出す） */
     .answer{
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.03);
       padding: 10px 12px;
       display:none;
+      overflow:hidden; /* はみ出し殺す */
     }
     .answerTop{
       display:flex;
@@ -166,48 +179,34 @@
       display:inline-flex;
       align-items:center;
       gap:8px;
-      padding: 5px 9px;     /* ← 小さく */
+      padding: 5px 9px;
       border-radius:999px;
       background: rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.12);
       font-size:11px;
       white-space:nowrap;
+      max-width:100%;
     }
     .dot{ width:8px; height:8px; border-radius:999px; background: var(--blue); }
     .dot.green{ background: var(--accent); }
     .dot.warn{ background: var(--warn); }
-
-    .answerLine{
-      font-size: 14px;
-      line-height: 1.25;
-      margin-top: 4px;
-      word-break: break-word;
-      overflow-wrap:anywhere;
-    }
     .k{ font-size:11px; color:var(--muted); }
     .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
 
-    details{
-      margin-top: 6px;
-      border-top: 1px solid rgba(255,255,255,.08);
-      padding-top: 6px;
-    }
-    summary{
-      list-style:none;
-      cursor:pointer;
-      user-select:none;
-      font-size: 12px;
-      color: var(--fg);
-      opacity: .9;
-    }
-    summary::-webkit-details-marker{ display:none; }
-    .detailText{
+    .answerBlock{
       margin-top: 6px;
       font-size: 12px;
       line-height: 1.35;
-      color: var(--fg);
       word-break: break-word;
       overflow-wrap:anywhere;
+    }
+    .answerBlock b{ font-size: 14px; }
+
+    .bottomActions{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:2px;
     }
 
     /* Drawer */
@@ -227,6 +226,7 @@
       padding: 12px;
       z-index: 60;
       display:none;
+      overflow:hidden;
     }
     .drawer h2{ margin:0 0 10px; font-size:14px; font-weight:900; }
     .drawer .k{ margin-bottom:6px; display:block; }
@@ -236,24 +236,23 @@
       border:1px solid var(--line);
       background: var(--card2);
       color: var(--fg);
-      padding: 9px 10px;
-      min-height: 38px;
+      padding: 8px 10px;
+      min-height: 36px;
       font-size: 13px;
     }
     .drawer .btn{ width:100%; margin-top:10px; }
 
-    /* 小さい端末はさらに圧縮 */
     @media (max-height: 690px){
       .prompt{ font-size:24px; }
-      .choice{ padding: 9px 10px; font-size: 13px; }
-      .btn{ min-height: 36px; padding: 8px 10px; }
+      .choice{ padding: 8px 10px; font-size: 12.5px; }
+      .btn{ min-height: 34px; padding: 7px 9px; }
     }
   </style>
 </head>
 <body>
   <div class="app">
     <div class="topbar">
-      <div style="min-width:0;">
+      <div class="titleBox">
         <h1 class="title">英会話用単語1000本ノック</h1>
         <div class="status" id="statusText">読み込み中…</div>
       </div>
@@ -270,7 +269,7 @@
 
       <div class="bottomActions">
         <button class="btn primary" id="btnNext">次へ</button>
-        <button class="btn blue" id="btnToggleReview" disabled>復習リストへ</button>
+        <button class="btn blue" id="btnToggleReview" disabled>復習へ</button>
       </div>
     </div>
   </div>
@@ -321,7 +320,6 @@
   const getReviewSet = () => loadSet(KEY_REVIEW);
   const getSeenSet = () => loadSet(KEY_SEEN);
 
-  // CSV parser
   function parseCSV(text) {
     const rows = [];
     let i = 0, field = "", row = [];
@@ -426,17 +424,28 @@
 
   function refreshReviewButton(){
     const btn = el("btnToggleReview");
-    if(!current){ btn.disabled = true; btn.textContent = "復習リストへ"; return; }
+    if(!current){ btn.disabled = true; btn.textContent = "復習へ"; return; }
     btn.disabled = false;
     const review = getReviewSet();
     const inList = review.has(current.id);
     btn.textContent = inList ? "復習OFF" : "復習へ";
   }
 
+  function escapeHTML(s){
+    return String(s ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
   function renderQuestion(){
     current = pickItem();
+
     el("answer").style.display = "none";
     el("answer").innerHTML = "";
+    el("choices").style.display = "grid";
     el("choices").innerHTML = "";
 
     if(!current){
@@ -459,6 +468,7 @@
     for(const ch of choices){
       const b = document.createElement("button");
       b.className = "choice";
+      b.type = "button";
       b.textContent = ch;
       b.onclick = () => showAnswer(ch === current.meaning);
       el("choices").appendChild(b);
@@ -469,41 +479,39 @@
     window.scrollTo({ top:0, left:0, behavior:"auto" });
   }
 
-  function escapeHTML(s){
-    return String(s ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
+  function showAnswer(isCorrect){
+    // ★答え表示したら選択肢を隠す（要望）
+    el("choices").style.display = "none";
 
-  function showAnswer(isMatch){
     const review = getReviewSet();
     const inList = current ? review.has(current.id) : false;
 
     el("answer").style.display = "block";
     el("answer").innerHTML = `
       <div class="answerTop">
-        <span class="badge"><span class="dot ${isMatch ? "green" : "warn"}"></span>${isMatch ? "一致" : "不一致"}</span>
+        <span class="badge"><span class="dot ${isCorrect ? "green" : "warn"}"></span>${isCorrect ? "正解" : "間違い"}</span>
         <span class="badge"><span class="dot"></span>${inList ? "要復習:ON" : "要復習:OFF"}</span>
         <span class="badge k">ID:<span class="mono">${current.id}</span></span>
       </div>
 
-      <div class="answerLine">
+      <div class="answerBlock">
         <span class="k">答え</span><br>
         <b>${escapeHTML(current.expression)}</b> — ${escapeHTML(current.meaning)}
       </div>
 
-      <details>
-        <summary>詳細（例文）▼</summary>
-        <div class="detailText"><span class="k">EN</span><br>${escapeHTML(current.example_en)}</div>
-        <div class="detailText"><span class="k">JA</span><br>${escapeHTML(current.example_ja)}</div>
-      </details>
+      <div class="answerBlock">
+        <span class="k">例文（EN）</span><br>
+        ${escapeHTML(current.example_en)}
+      </div>
+
+      <div class="answerBlock">
+        <span class="k">例文（JA）</span><br>
+        ${escapeHTML(current.example_ja)}
+      </div>
     `;
 
-    // スクロールを極力発生させない（答えが表示される位置へ軽く合わせる）
-    setTimeout(() => el("answer").scrollIntoView({ behavior:"smooth", block:"nearest" }), 30);
+    // 画面位置だけ軽く整える
+    setTimeout(() => el("answer").scrollIntoView({ behavior:"smooth", block:"nearest" }), 20);
   }
 
   function toggleReview(){
@@ -514,6 +522,7 @@
     saveSet(KEY_REVIEW, review);
     refreshReviewButton();
     updateStatusLine();
+    // 答え表示中なら表示も更新したいので、再描画するならここでやる（簡易：現状はボタン表示だけ更新）
   }
 
   function clearReview(){
@@ -537,7 +546,6 @@
     el("drawerOverlay").style.display = "none";
     el("drawer").style.display = "none";
   }
-
   el("btnMenu").onclick = openDrawer;
   el("drawerOverlay").onclick = closeDrawer;
   el("btnCloseMenu").onclick = closeDrawer;
@@ -555,7 +563,6 @@
     if(confirm("復習リストを全解除します。OK？")) clearReview();
     closeDrawer();
   };
-
   el("btnResetSeen").onclick = () => {
     if(confirm("未出題（出題履歴）をリセットします。OK？")) resetSeen();
     closeDrawer();
@@ -587,4 +594,3 @@
 </script>
 </body>
 </html>
-
