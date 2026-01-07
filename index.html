@@ -8,112 +8,176 @@
     :root{
       --bg:#0b0f17; --card:#111827; --card2:#0f172a;
       --fg:#e5e7eb; --muted:#9ca3af; --line:rgba(255,255,255,.10);
-      --accent:#22c55e; --accent2:#3b82f6; --warn:#f59e0b;
-      --danger:#ef4444;
+      --accent:#22c55e; --blue:#2563eb; --warn:#f59e0b; --danger:#b91c1c;
     }
-    *{ box-sizing:border-box; }
+
+    /* ===== 横スクロール完全禁止（最優先） ===== */
+    html, body{
+      width:100%;
+      max-width:100%;
+      overflow-x:hidden !important;
+      overscroll-behavior-x: none;
+      touch-action: pan-y; /* 横スワイプ無効（縦のみ） */
+      -webkit-text-size-adjust:100%;
+    }
+    *{
+      box-sizing:border-box;
+      max-width:100%;
+    }
+    img, svg, video, canvas { max-width:100%; height:auto; }
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
       background:var(--bg);
       color:var(--fg);
-      -webkit-text-size-adjust: 100%;
     }
-    .wrap{
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 14px 12px 24px;
+
+    /* ===== 画面内に収めるためのレイアウト ===== */
+    .app{
+      min-height: 100vh;
+      padding: 10px 10px calc(12px + env(safe-area-inset-bottom));
+      display:flex;
+      flex-direction:column;
+      gap:10px;
     }
-    .header{
-      padding: 14px 14px;
+
+    .topbar{
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 14px;
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex: 0 0 auto;
     }
     .title{
-      font-size: 18px;
-      font-weight: 800;
-      margin: 0;
-      letter-spacing: .2px;
+      font-size: 16px;
+      font-weight: 900;
+      margin:0;
+      letter-spacing:.2px;
+      line-height: 1.1;
+      word-break: break-word;
+      overflow-wrap:anywhere;
     }
-    .subrow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin-top: 10px;
+    .status{
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.2;
     }
-    select, button{
+
+    .right{
+      display:flex; align-items:center; gap:10px;
+      flex: 0 0 auto;
+    }
+
+    .btn{
       border-radius: 12px;
       border: 1px solid var(--line);
       background: var(--card2);
       color: var(--fg);
       padding: 10px 12px;
       font-size: 14px;
-      line-height: 1.1;
       min-height: 42px;
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
     }
-    select{ padding-right: 34px; }
-    button{ cursor:pointer; }
-    button.primary{ background:#16a34a; border-color:#16a34a; }
-    button.blue{ background:#2563eb; border-color:#2563eb; }
-    button.ghost{ background: transparent; }
-    button.danger{ background:#b91c1c; border-color:#b91c1c; }
+    .btn.primary{ background:#16a34a; border-color:#16a34a; }
+    .btn.blue{ background:var(--blue); border-color:var(--blue); }
+    .btn.ghost{ background: transparent; }
+    .btn.danger{ background:var(--danger); border-color:var(--danger); }
 
-    .panel{
-      margin-top: 12px;
-      padding: 14px;
+    .hamburger{
+      width: 42px;
+      padding: 10px 10px;
+      display:grid;
+      place-items:center;
+    }
+    .hamburger span{
+      display:block;
+      width:18px;
+      height:2px;
+      background: var(--fg);
+      border-radius: 10px;
+      position:relative;
+    }
+    .hamburger span::before,
+    .hamburger span::after{
+      content:"";
+      position:absolute;
+      left:0;
+      width:18px;
+      height:2px;
+      background: var(--fg);
+      border-radius: 10px;
+    }
+    .hamburger span::before{ top:-6px; }
+    .hamburger span::after{ top:6px; }
+
+    /* ===== メイン（1画面に寄せる） ===== */
+    .main{
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 14px;
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex: 1 1 auto;
+      min-height: 0; /* flexのスクロール制御に必要 */
     }
+
     .label{
       color: var(--muted);
       font-size: 12px;
-      margin-bottom: 8px;
-    }
-    .prompt{
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: .2px;
-      word-break: break-word;
-      overflow-wrap: anywhere;
+      line-height: 1.2;
     }
 
+    .prompt{
+      font-size: 28px;
+      font-weight: 950;
+      letter-spacing: .2px;
+      line-height: 1.1;
+      word-break: break-word;
+      overflow-wrap:anywhere;
+    }
+
+    /* 選択肢は「画面内に収まる」を優先 → 小さめ＆詰める */
     .choices{
       display:grid;
-      gap:10px;
-      margin-top: 12px;
+      gap:8px;
+      flex: 1 1 auto;
+      min-height: 0;
     }
     .choice{
       width:100%;
       text-align:left;
-      padding: 14px 14px;
+      padding: 12px 12px;
       background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.12);
       border-radius: 14px;
       font-size: 15px;
-      line-height: 1.25;
+      line-height: 1.2;
       word-break: break-word;
-      overflow-wrap: anywhere;
+      overflow-wrap:anywhere;
     }
     .choice:active{ transform: translateY(1px); }
 
-    /* Answer box: inline (no popup), so it won't overlap on mobile */
+    /* 答えは「下部固定っぽく」見せる（ただしposition固定は避ける） */
     .answer{
-      margin-top: 12px;
-      padding: 12px 12px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.03);
+      padding: 10px 12px;
+      display:none;
+      flex: 0 0 auto;
     }
-    .answer .status{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom: 8px;
+    .answerTop{
+      display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
+      margin-bottom: 6px;
     }
     .badge{
       display:inline-flex;
@@ -124,72 +188,132 @@
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.12);
       font-size: 12px;
-      color: var(--fg);
       white-space: nowrap;
     }
-    .dot{ width:8px; height:8px; border-radius:999px; background: var(--accent2); }
+    .dot{ width:8px; height:8px; border-radius:999px; background: var(--blue); }
     .dot.green{ background: var(--accent); }
     .dot.warn{ background: var(--warn); }
-
-    .kv{ margin-top: 6px; line-height: 1.45; }
     .k{ color: var(--muted); font-size: 12px; }
     .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .kv{ margin-top: 6px; line-height: 1.35; }
 
-    .btnrow{
+    /* ===== 下部の主要操作ボタン（常に見える位置） ===== */
+    .bottomActions{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      flex: 0 0 auto;
+    }
+    .bottomActions .btn{ width:100%; }
+
+    /* ===== ハンバーガーメニュー ===== */
+    .drawerOverlay{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.45);
+      display:none;
+      z-index: 50;
+    }
+    .drawer{
+      position:fixed;
+      top: 10px;
+      right: 10px;
+      width: min(360px, calc(100vw - 20px));
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      z-index: 60;
+      display:none;
+    }
+    .drawer h2{
+      margin: 0 0 10px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .drawer .row{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-      margin-top: 12px;
+      align-items:center;
+      margin-bottom: 10px;
     }
-    .btnrow > button{ flex: 1 1 160px; }
+    .drawer select{
+      width:100%;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: var(--card2);
+      color: var(--fg);
+      padding: 10px 12px;
+      min-height: 42px;
+      font-size: 14px;
+    }
+    .drawer .btn{ width:100%; }
 
-    /* Prevent iOS bottom bar overlap */
-    .safe-bottom{ padding-bottom: env(safe-area-inset-bottom); }
-
-    .tiny{
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
-      word-break: break-word;
-      overflow-wrap: anywhere;
+    /* iPhone SE等の狭い端末向けに少し詰める */
+    @media (max-height: 720px){
+      .prompt{ font-size: 26px; }
+      .choice{ padding: 10px 12px; }
+    }
+    @media (max-height: 670px){
+      .prompt{ font-size: 24px; }
+      .choice{ font-size: 14px; }
+      .main{ padding: 10px; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap safe-bottom">
-    <div class="header">
-      <h1 class="title">英会話用単語1000本ノック</h1>
-
-      <div class="subrow">
-        <select id="mode">
-          <option value="all">全体</option>
-          <option value="review">要復習</option>
-          <option value="unseen">未出題</option>
-        </select>
-
-        <button class="primary" id="btnNext">次の問題</button>
-        <button class="blue" id="btnToggleReview" disabled>復習リストへ</button>
-        <button class="ghost" id="btnClearReview">復習リスト全解除</button>
-        <button class="danger" id="btnResetSeen">未出題をリセット</button>
+  <div class="app" id="appRoot">
+    <div class="topbar">
+      <div style="min-width:0;">
+        <h1 class="title">英会話用単語1000本ノック</h1>
+        <div class="status" id="statusText">読み込み中…</div>
       </div>
 
-      <div class="tiny" id="statusText">読み込み中…（CSVは自動で読み込みます）</div>
+      <div class="right">
+        <button class="btn hamburger" id="btnMenu" aria-label="menu"><span></span></button>
+      </div>
     </div>
 
-    <div class="panel">
+    <div class="main">
       <div class="label">問題（英→日）</div>
       <div class="prompt" id="prompt">—</div>
 
       <div class="choices" id="choices"></div>
 
-      <div class="answer" id="answer" style="display:none;"></div>
+      <div class="answer" id="answer"></div>
+
+      <div class="bottomActions">
+        <button class="btn primary" id="btnNext">次の問題</button>
+        <button class="btn blue" id="btnToggleReview" disabled>復習リストへ</button>
+      </div>
     </div>
+  </div>
+
+  <!-- Drawer -->
+  <div class="drawerOverlay" id="drawerOverlay"></div>
+  <div class="drawer" id="drawer">
+    <h2>メニュー</h2>
+
+    <div class="row">
+      <div class="k">出題モード</div>
+      <select id="mode">
+        <option value="all">全体</option>
+        <option value="review">要復習</option>
+        <option value="unseen">未出題</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <button class="btn ghost" id="btnClearReview">復習リスト全解除</button>
+      <button class="btn danger" id="btnResetSeen">未出題をリセット</button>
+    </div>
+
+    <button class="btn ghost" id="btnCloseMenu">閉じる</button>
   </div>
 
 <script>
 (() => {
-  // ====== Settings ======
   const CSV_URLS = [
     "vocab_001_200.csv",
     "vocab_201_400.csv",
@@ -198,17 +322,14 @@
     "vocab_801_1000.csv",
   ];
 
-  const KEY_REVIEW = "vocab_review_ids_v1"; // Set of ids (array saved)
-  const KEY_SEEN   = "vocab_seen_ids_v1";   // Set of ids (array saved)
+  const KEY_REVIEW = "vocab_review_ids_v1";
+  const KEY_SEEN   = "vocab_seen_ids_v1";
 
-  /** @type {{id:number, expression:string, meaning:string, example_en:string, example_ja:string}[]} */
   let items = [];
-  /** @type {null | {id:number, expression:string, meaning:string, example_en:string, example_ja:string}} */
   let current = null;
 
   const el = (id) => document.getElementById(id);
 
-  // ====== localStorage helpers ======
   function loadSet(key){
     try{
       const arr = JSON.parse(localStorage.getItem(key) || "[]");
@@ -222,7 +343,7 @@
   function getReviewSet(){ return loadSet(KEY_REVIEW); }
   function getSeenSet(){ return loadSet(KEY_SEEN); }
 
-  // ====== CSV parsing (handles quotes/newlines) ======
+  // CSV parser
   function parseCSV(text) {
     const rows = [];
     let i = 0, field = "", row = [];
@@ -230,27 +351,22 @@
 
     while (i < text.length) {
       const c = text[i];
-
       if (inQuotes) {
         if (c === '"') {
           if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
           inQuotes = false; i++; continue;
-        } else {
-          field += c; i++; continue;
-        }
+        } else { field += c; i++; continue; }
       } else {
         if (c === '"') { inQuotes = true; i++; continue; }
-        if (c === ",") { row.push(field); field = ""; i++; continue; }
+        if (c === ",") { row.push(field); field=""; i++; continue; }
         if (c === "\r") { i++; continue; }
-        if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; i++; continue; }
+        if (c === "\n") { row.push(field); rows.push(row); row=[]; field=""; i++; continue; }
         field += c; i++; continue;
       }
     }
-    row.push(field);
-    rows.push(row);
+    row.push(field); rows.push(row);
     return rows;
   }
-
   function norm(h){ return (h||"").trim().toLowerCase(); }
 
   function rowsToItems(rows){
@@ -263,11 +379,10 @@
       example_en: header.indexOf("example_en"),
       example_ja: header.indexOf("example_ja"),
     };
-    for(const k in idx){
-      if(idx[k] === -1) throw new Error("CSVヘッダー不足: " + k);
-    }
+    for(const k in idx){ if(idx[k] === -1) throw new Error("CSVヘッダー不足: " + k); }
+
     const out = [];
-    for(let r=1; r<rows.length; r++){
+    for(let r=1;r<rows.length;r++){
       const row = rows[r];
       if(row.length === 1 && row[0].trim() === "") continue;
       const id = Number(row[idx.id]);
@@ -284,13 +399,12 @@
   }
 
   async function fetchCSV(url){
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(url, { cache:"no-store" });
     if(!res.ok) throw new Error(`CSV取得失敗: ${url} (${res.status})`);
     const text = await res.text();
     return rowsToItems(parseCSV(text));
   }
 
-  // ====== Quiz logic ======
   function shuffle(a){
     for(let i=a.length-1;i>0;i--){
       const j = Math.floor(Math.random()*(i+1));
@@ -310,7 +424,6 @@
 
   function pickItem(){
     if(!items.length) return null;
-
     const mode = el("mode").value;
     const review = getReviewSet();
     const seen = getSeenSet();
@@ -320,8 +433,7 @@
     if(mode === "review"){
       pool = items.filter(x => review.has(x.id));
       if(!pool.length) return null;
-    }
-    if(mode === "unseen"){
+    } else if(mode === "unseen"){
       pool = items.filter(x => !seen.has(x.id));
       if(!pool.length) return null;
     }
@@ -338,6 +450,16 @@
       .replaceAll("'","&#039;");
   }
 
+  function setStatus(text){ el("statusText").textContent = text; }
+
+  function updateStatusLine(){
+    const review = getReviewSet();
+    const seen = getSeenSet();
+    const total = items.length;
+    const unseen = Math.max(0, total - seen.size);
+    setStatus(`読み込み: ${total} / 要復習: ${review.size} / 未出題: ${unseen}`);
+  }
+
   function refreshReviewButton(){
     const btn = el("btnToggleReview");
     if(!current){ btn.disabled = true; btn.textContent = "復習リストへ"; return; }
@@ -346,23 +468,23 @@
     const review = getReviewSet();
     const inList = review.has(current.id);
     btn.textContent = inList ? "復習リストから外す" : "復習リストへ";
-    btn.className = inList ? "blue" : "blue";
-  }
 
-  function setStatus(text){
-    el("statusText").textContent = text;
+    // 答え表示にも反映
+    const badge = document.getElementById("reviewBadge");
+    if(badge) badge.innerHTML = `<span class="dot"></span>${inList ? "要復習：ON" : "要復習：OFF"}`;
   }
 
   function renderQuestion(){
     current = pickItem();
+
     el("answer").style.display = "none";
     el("answer").innerHTML = "";
     el("choices").innerHTML = "";
 
     if(!current){
       const mode = el("mode").value;
-      if(mode === "review") el("prompt").textContent = "要復習が空です（『復習リストへ』で追加してください）";
-      else if(mode === "unseen") el("prompt").textContent = "未出題がありません（『未出題をリセット』で戻せます）";
+      if(mode === "review") el("prompt").textContent = "要復習が空です（『復習リストへ』で追加）";
+      else if(mode === "unseen") el("prompt").textContent = "未出題がありません（メニュー→未出題リセット）";
       else el("prompt").textContent = "出題できません";
       refreshReviewButton();
       return;
@@ -385,30 +507,30 @@
     }
 
     refreshReviewButton();
-    updateTopStatusLine();
+    updateStatusLine();
+
+    // 「次の問題」でスクロール発生しにくくする：常に先頭へ
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }
 
-  function showAnswer(isCorrect){
-    // 正誤は「表示するだけ」に留める（進捗ロジックには使わない）
+  function showAnswer(isMatch){
     const review = getReviewSet();
     const inList = current ? review.has(current.id) : false;
 
-    const box = el("answer");
-    box.style.display = "block";
-    box.innerHTML = `
-      <div class="status">
-        <span class="badge"><span class="dot ${isCorrect ? "green" : "warn"}"></span>${isCorrect ? "一致" : "不一致"}</span>
-        <span class="badge"><span class="dot"></span>${inList ? "要復習：ON" : "要復習：OFF"}</span>
+    el("answer").style.display = "block";
+    el("answer").innerHTML = `
+      <div class="answerTop">
+        <span class="badge"><span class="dot ${isMatch ? "green" : "warn"}"></span>${isMatch ? "一致" : "不一致"}</span>
+        <span class="badge" id="reviewBadge"><span class="dot"></span>${inList ? "要復習：ON" : "要復習：OFF"}</span>
       </div>
-
       <div class="kv"><span class="k">答え</span><br><b>${escapeHTML(current.expression)}</b> — ${escapeHTML(current.meaning)}</div>
       <div class="kv"><span class="k">例文（EN）</span><br>${escapeHTML(current.example_en)}</div>
       <div class="kv"><span class="k">例文（JA）</span><br>${escapeHTML(current.example_ja)}</div>
       <div class="kv k">ID: <span class="mono">${current.id}</span></div>
     `;
 
-    // iOSで「答え表示時にズレる」対策：表示後に少しだけスクロール調整（任意）
-    setTimeout(() => { box.scrollIntoView({ behavior:"smooth", block:"nearest" }); }, 50);
+    // 画面内に答えが収まらない端末でも、横スクロールはさせない
+    // 縦は許容（必要最小限）
   }
 
   function toggleReview(){
@@ -418,43 +540,54 @@
     else review.add(current.id);
     saveSet(KEY_REVIEW, review);
     refreshReviewButton();
-    updateTopStatusLine();
+    updateStatusLine();
   }
 
   function clearReview(){
     saveSet(KEY_REVIEW, new Set());
     refreshReviewButton();
-    updateTopStatusLine();
+    updateStatusLine();
   }
 
   function resetSeen(){
     saveSet(KEY_SEEN, new Set());
-    updateTopStatusLine();
-    // 未出題モードなら即反映
+    updateStatusLine();
     if(el("mode").value === "unseen") renderQuestion();
   }
 
-  function updateTopStatusLine(){
-    const review = getReviewSet();
-    const seen = getSeenSet();
-    const total = items.length;
-    const reviewCount = review.size;
-    const unseenCount = Math.max(0, total - seen.size);
-    setStatus(`読み込み: ${total} / 要復習: ${reviewCount} / 未出題: ${unseenCount}`);
+  // ===== Drawer =====
+  function openDrawer(){
+    el("drawerOverlay").style.display = "block";
+    el("drawer").style.display = "block";
+  }
+  function closeDrawer(){
+    el("drawerOverlay").style.display = "none";
+    el("drawer").style.display = "none";
   }
 
-  // ====== UI wiring ======
+  el("btnMenu").onclick = openDrawer;
+  el("drawerOverlay").onclick = closeDrawer;
+  el("btnCloseMenu").onclick = closeDrawer;
+
+  // ===== UI wiring =====
   el("btnNext").onclick = renderQuestion;
   el("btnToggleReview").onclick = toggleReview;
+
+  el("mode").onchange = () => {
+    closeDrawer();
+    renderQuestion();
+  };
+
   el("btnClearReview").onclick = () => {
     if(confirm("復習リストを全解除します。OK？")) clearReview();
+    closeDrawer();
   };
   el("btnResetSeen").onclick = () => {
     if(confirm("未出題（出題履歴）をリセットします。OK？")) resetSeen();
+    closeDrawer();
   };
-  el("mode").onchange = renderQuestion;
 
-  // ====== Boot ======
+  // ===== Boot =====
   (async () => {
     try{
       setStatus("読み込み中…");
@@ -463,15 +596,14 @@
         const part = await fetchCSV(url);
         merged.push(...part);
       }
-      // de-dup by id
       const map = new Map();
       for(const it of merged) map.set(it.id, it);
       items = Array.from(map.values()).sort((a,b)=>a.id-b.id);
 
-      updateTopStatusLine();
+      updateStatusLine();
       renderQuestion();
     }catch(e){
-      setStatus("CSVが読み込めませんでした。ファイル名/配置/パスを確認してください。");
+      setStatus("CSV読み込み失敗：ファイル名/配置/パスを確認してください");
       el("prompt").textContent = "CSVの読み込みに失敗しました";
       el("choices").innerHTML = "";
       console.error(e);
