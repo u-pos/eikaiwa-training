@@ -11,6 +11,7 @@
       --accent:#22c55e; --blue:#2563eb; --warn:#f59e0b; --danger:#b91c1c;
     }
 
+    /* ===== 横はみ出し根絶（強化版） ===== */
     html, body{
       width:100%;
       max-width:100%;
@@ -19,7 +20,13 @@
       touch-action: pan-y;
       -webkit-text-size-adjust:100%;
     }
+    body{ position:relative; }
     *{ box-sizing:border-box; max-width:100%; }
+    /* iOS Safariで稀にoverflow-x:hiddenが効かないケース対策 */
+    @supports (overflow: clip){
+      html, body{ overflow-x: clip !important; }
+    }
+
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
@@ -27,23 +34,31 @@
       color:var(--fg);
     }
 
-    /* iOSの青化/右はみ出し対策 */
+    /* iOSの青化/リンク化を殺す */
     a, button, .choice{
       color: var(--fg) !important;
       -webkit-text-fill-color: var(--fg);
-      text-decoration: none;
+      text-decoration:none;
     }
-    button{ -webkit-tap-highlight-color: transparent; }
+    button{
+      -webkit-tap-highlight-color: transparent;
+      appearance: none;
+      -webkit-appearance: none;
+    }
 
     .app{
+      width:100%;
+      max-width:100%;
       min-height:100vh;
       padding: 10px 10px calc(12px + env(safe-area-inset-bottom));
       display:flex;
       flex-direction:column;
       gap:10px;
+      contain: layout paint; /* はみ出し伝播しにくく */
     }
 
     .topbar{
+      width:100%;
       background:var(--card);
       border:1px solid var(--line);
       border-radius:14px;
@@ -52,7 +67,8 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      overflow:hidden; /* 右はみ出し殺す */
+      overflow:hidden;
+      contain: paint;
     }
     .titleBox{ min-width:0; }
     .title{
@@ -64,7 +80,7 @@
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
-      max-width: 70vw;
+      max-width: 72vw;
     }
     .status{
       margin-top:4px;
@@ -74,20 +90,20 @@
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
-      max-width: 70vw;
+      max-width: 72vw;
     }
 
     .btn{
       border-radius:12px;
       border:1px solid var(--line);
       background:var(--card2);
-      color:var(--fg);
       padding: 8px 10px;
       font-size:13px;
       min-height: 36px;
       cursor:pointer;
       user-select:none;
       flex: 0 0 auto;
+      min-width:0;
     }
     .btn.primary{ background:#16a34a; border-color:#16a34a; }
     .btn.blue{ background:var(--blue); border-color:var(--blue); }
@@ -111,6 +127,7 @@
     .hamburger span::after{ top:6px; }
 
     .main{
+      width:100%;
       background:var(--card);
       border:1px solid var(--line);
       border-radius:14px;
@@ -120,7 +137,8 @@
       gap:8px;
       flex:1 1 auto;
       min-height:0;
-      overflow:hidden; /* 右はみ出し殺す */
+      overflow:hidden; /* 横はみ出しを確実に切る */
+      contain: layout paint;
     }
 
     .label{ font-size:11px; color:var(--muted); }
@@ -132,40 +150,48 @@
       overflow-wrap:anywhere;
     }
 
-    /* 選択肢はとにかく小さく、はみ出さない */
+    /* ===== 4択（さらにコンパクト化＋はみ出し防止） ===== */
     .choices{
+      width:100%;
       display:grid;
-      gap:6px;
+      gap:6px;             /* 詰める */
       flex:1 1 auto;
       min-height:0;
-      overflow:hidden; /* はみ出し殺す */
+      overflow:hidden;     /* 横はみ出しを切る */
+      contain: paint;
     }
     .choice{
       display:block;
-      inline-size:100%;    /* iOSでwidthより安定 */
-      max-inline-size:100%;
+      width:100%;
+      max-width:100%;
       min-width:0;
-      text-align:left;
-      padding: 9px 10px;   /* 小さく */
+
+      /* 高さを小さく */
+      padding: 8px 10px;   /* さらに小さく */
+      border-radius: 10px; /* 小さく */
+
       background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.12);
-      border-radius: 12px; /* 少し小さく */
-      font-size: 13px;     /* 小さく */
-      line-height: 1.15;
+
+      font-size: 12.5px;   /* 小さく */
+      line-height: 1.10;   /* 詰める */
+
       word-break: break-word;
       overflow-wrap:anywhere;
-      overflow:hidden;     /* はみ出し殺す */
+      overflow:hidden;
     }
+    /* iOSでフォーカス枠がはみ出すのも防ぐ */
+    .choice:focus{ outline: none; }
     .choice:active{ transform: translateY(1px); }
 
-    /* 答え表示（例文は常に出す） */
+    /* ===== 答え（ここは“完璧”とのことなので維持） ===== */
     .answer{
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.03);
       padding: 10px 12px;
       display:none;
-      overflow:hidden; /* はみ出し殺す */
+      overflow:hidden;
     }
     .answerTop{
       display:flex;
@@ -203,6 +229,7 @@
     .answerBlock b{ font-size: 14px; }
 
     .bottomActions{
+      width:100%;
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:10px;
@@ -219,7 +246,8 @@
     .drawer{
       position:fixed;
       top: 10px; right: 10px;
-      width: min(340px, calc(100vw - 20px));
+      width: min(340px, calc(100% - 20px)); /* 100vwを避ける */
+      max-width: calc(100% - 20px);
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 14px;
@@ -227,6 +255,7 @@
       z-index: 60;
       display:none;
       overflow:hidden;
+      contain: paint;
     }
     .drawer h2{ margin:0 0 10px; font-size:14px; font-weight:900; }
     .drawer .k{ margin-bottom:6px; display:block; }
@@ -244,7 +273,7 @@
 
     @media (max-height: 690px){
       .prompt{ font-size:24px; }
-      .choice{ padding: 8px 10px; font-size: 12.5px; }
+      .choice{ padding: 7px 9px; font-size: 12px; }
       .btn{ min-height: 34px; padding: 7px 9px; }
     }
   </style>
@@ -457,7 +486,6 @@
       return;
     }
 
-    // mark seen
     const seen = getSeenSet();
     seen.add(current.id);
     saveSet(KEY_SEEN, seen);
@@ -480,7 +508,6 @@
   }
 
   function showAnswer(isCorrect){
-    // ★答え表示したら選択肢を隠す（要望）
     el("choices").style.display = "none";
 
     const review = getReviewSet();
@@ -510,7 +537,6 @@
       </div>
     `;
 
-    // 画面位置だけ軽く整える
     setTimeout(() => el("answer").scrollIntoView({ behavior:"smooth", block:"nearest" }), 20);
   }
 
@@ -522,7 +548,6 @@
     saveSet(KEY_REVIEW, review);
     refreshReviewButton();
     updateStatusLine();
-    // 答え表示中なら表示も更新したいので、再描画するならここでやる（簡易：現状はボタン表示だけ更新）
   }
 
   function clearReview(){
@@ -563,6 +588,7 @@
     if(confirm("復習リストを全解除します。OK？")) clearReview();
     closeDrawer();
   };
+
   el("btnResetSeen").onclick = () => {
     if(confirm("未出題（出題履歴）をリセットします。OK？")) resetSeen();
     closeDrawer();
