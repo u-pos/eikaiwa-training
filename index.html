@@ -7,34 +7,31 @@
   <style>
     :root{
       --bg:#0b0f17; --card:#111827; --card2:#0f172a;
-      --fg:#e5e7eb; --muted:#9ca3af; --line:rgba(255,255,255,.10);
+      --fg:#e8eaee; --muted:#a7b0c0; --line:rgba(255,255,255,.10);
       --accent:#22c55e; --blue:#2563eb; --warn:#f59e0b; --danger:#b91c1c;
     }
 
-    /* ===== 横スクロール完全禁止（最優先） ===== */
     html, body{
       width:100%;
       max-width:100%;
       overflow-x:hidden !important;
-      overscroll-behavior-x: none;
-      touch-action: pan-y; /* 横スワイプ無効（縦のみ） */
+      overscroll-behavior-x:none;
+      touch-action: pan-y;
       -webkit-text-size-adjust:100%;
     }
-    *{
-      box-sizing:border-box;
-      max-width:100%;
-    }
-    img, svg, video, canvas { max-width:100%; height:auto; }
+    *{ box-sizing:border-box; max-width:100%; }
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
       background:var(--bg);
       color:var(--fg);
     }
+    /* iOSの青リンク化を殺す */
+    a, button, .choice{ color: var(--fg) !important; -webkit-text-fill-color: var(--fg); }
+    button{ -webkit-tap-highlight-color: transparent; }
 
-    /* ===== 画面内に収めるためのレイアウト ===== */
     .app{
-      min-height: 100vh;
+      min-height:100vh;
       padding: 10px 10px calc(12px + env(safe-area-inset-bottom));
       display:flex;
       flex-direction:column;
@@ -42,183 +39,188 @@
     }
 
     .topbar{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 14px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
       padding: 10px 12px;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      flex: 0 0 auto;
     }
     .title{
-      font-size: 16px;
-      font-weight: 900;
       margin:0;
+      font-size:16px;
+      font-weight:900;
+      line-height:1.1;
       letter-spacing:.2px;
-      line-height: 1.1;
-      word-break: break-word;
-      overflow-wrap:anywhere;
     }
     .status{
-      margin-top: 4px;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.2;
-    }
-
-    .right{
-      display:flex; align-items:center; gap:10px;
-      flex: 0 0 auto;
+      margin-top:4px;
+      font-size:11px;
+      color:var(--muted);
+      line-height:1.2;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 64vw;
     }
 
     .btn{
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: var(--card2);
-      color: var(--fg);
-      padding: 10px 12px;
-      font-size: 14px;
-      min-height: 42px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:var(--card2);
+      color:var(--fg);
+      padding: 9px 10px;
+      font-size:13px;
+      min-height: 38px;   /* ← 小さめ */
       cursor:pointer;
       user-select:none;
-      -webkit-tap-highlight-color: transparent;
     }
     .btn.primary{ background:#16a34a; border-color:#16a34a; }
     .btn.blue{ background:var(--blue); border-color:var(--blue); }
-    .btn.ghost{ background: transparent; }
+    .btn.ghost{ background:transparent; }
     .btn.danger{ background:var(--danger); border-color:var(--danger); }
 
     .hamburger{
-      width: 42px;
-      padding: 10px 10px;
-      display:grid;
-      place-items:center;
+      width: 38px;
+      padding: 8px 8px;
+      display:grid; place-items:center;
     }
     .hamburger span{
+      width:18px; height:2px; background:var(--fg); border-radius:10px; position:relative;
       display:block;
-      width:18px;
-      height:2px;
-      background: var(--fg);
-      border-radius: 10px;
-      position:relative;
     }
     .hamburger span::before,
     .hamburger span::after{
-      content:"";
-      position:absolute;
-      left:0;
-      width:18px;
-      height:2px;
-      background: var(--fg);
-      border-radius: 10px;
+      content:""; position:absolute; left:0; width:18px; height:2px; background:var(--fg); border-radius:10px;
     }
     .hamburger span::before{ top:-6px; }
     .hamburger span::after{ top:6px; }
 
-    /* ===== メイン（1画面に寄せる） ===== */
     .main{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 12px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding: 10px 12px;
       display:flex;
       flex-direction:column;
-      gap:10px;
-      flex: 1 1 auto;
-      min-height: 0; /* flexのスクロール制御に必要 */
+      gap:8px;             /* ← 詰める */
+      flex:1 1 auto;
+      min-height:0;
     }
-
-    .label{
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.2;
-    }
+    .label{ font-size:11px; color:var(--muted); }
 
     .prompt{
-      font-size: 28px;
-      font-weight: 950;
-      letter-spacing: .2px;
-      line-height: 1.1;
-      word-break: break-word;
+      font-size:26px;      /* ← 少し小さく */
+      font-weight:950;
+      line-height:1.08;
+      word-break:break-word;
       overflow-wrap:anywhere;
     }
 
-    /* 選択肢は「画面内に収まる」を優先 → 小さめ＆詰める */
     .choices{
       display:grid;
       gap:8px;
-      flex: 1 1 auto;
-      min-height: 0;
+      flex:1 1 auto;
+      min-height:0;
     }
     .choice{
       width:100%;
       text-align:left;
-      padding: 12px 12px;
+      padding: 10px 12px;   /* ← 小さく */
       background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.12);
       border-radius: 14px;
-      font-size: 15px;
-      line-height: 1.2;
+      font-size: 14px;      /* ← 小さく */
+      line-height: 1.15;
       word-break: break-word;
       overflow-wrap:anywhere;
     }
     .choice:active{ transform: translateY(1px); }
 
-    /* 答えは「下部固定っぽく」見せる（ただしposition固定は避ける） */
+    .bottomActions{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:2px;
+    }
+
+    /* 答えはコンパクト表示＋詳細は折りたたみ */
     .answer{
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.03);
       padding: 10px 12px;
       display:none;
-      flex: 0 0 auto;
     }
     .answerTop{
-      display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
-      margin-bottom: 6px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:6px;
     }
     .badge{
       display:inline-flex;
       align-items:center;
       gap:8px;
-      padding: 6px 10px;
-      border-radius: 999px;
+      padding: 5px 9px;     /* ← 小さく */
+      border-radius:999px;
       background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-      font-size: 12px;
-      white-space: nowrap;
+      border:1px solid rgba(255,255,255,.12);
+      font-size:11px;
+      white-space:nowrap;
     }
     .dot{ width:8px; height:8px; border-radius:999px; background: var(--blue); }
     .dot.green{ background: var(--accent); }
     .dot.warn{ background: var(--warn); }
-    .k{ color: var(--muted); font-size: 12px; }
-    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
-    .kv{ margin-top: 6px; line-height: 1.35; }
 
-    /* ===== 下部の主要操作ボタン（常に見える位置） ===== */
-    .bottomActions{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      flex: 0 0 auto;
+    .answerLine{
+      font-size: 14px;
+      line-height: 1.25;
+      margin-top: 4px;
+      word-break: break-word;
+      overflow-wrap:anywhere;
     }
-    .bottomActions .btn{ width:100%; }
+    .k{ font-size:11px; color:var(--muted); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
 
-    /* ===== ハンバーガーメニュー ===== */
+    details{
+      margin-top: 6px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 6px;
+    }
+    summary{
+      list-style:none;
+      cursor:pointer;
+      user-select:none;
+      font-size: 12px;
+      color: var(--fg);
+      opacity: .9;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    .detailText{
+      margin-top: 6px;
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--fg);
+      word-break: break-word;
+      overflow-wrap:anywhere;
+    }
+
+    /* Drawer */
     .drawerOverlay{
-      position:fixed;
-      inset:0;
+      position:fixed; inset:0;
       background: rgba(0,0,0,.45);
       display:none;
       z-index: 50;
     }
     .drawer{
       position:fixed;
-      top: 10px;
-      right: 10px;
-      width: min(360px, calc(100vw - 20px));
+      top: 10px; right: 10px;
+      width: min(340px, calc(100vw - 20px));
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 14px;
@@ -226,53 +228,36 @@
       z-index: 60;
       display:none;
     }
-    .drawer h2{
-      margin: 0 0 10px;
-      font-size: 14px;
-      font-weight: 900;
-    }
-    .drawer .row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin-bottom: 10px;
-    }
+    .drawer h2{ margin:0 0 10px; font-size:14px; font-weight:900; }
+    .drawer .k{ margin-bottom:6px; display:block; }
     .drawer select{
       width:100%;
       border-radius:12px;
       border:1px solid var(--line);
       background: var(--card2);
       color: var(--fg);
-      padding: 10px 12px;
-      min-height: 42px;
-      font-size: 14px;
+      padding: 9px 10px;
+      min-height: 38px;
+      font-size: 13px;
     }
-    .drawer .btn{ width:100%; }
+    .drawer .btn{ width:100%; margin-top:10px; }
 
-    /* iPhone SE等の狭い端末向けに少し詰める */
-    @media (max-height: 720px){
-      .prompt{ font-size: 26px; }
-      .choice{ padding: 10px 12px; }
-    }
-    @media (max-height: 670px){
-      .prompt{ font-size: 24px; }
-      .choice{ font-size: 14px; }
-      .main{ padding: 10px; }
+    /* 小さい端末はさらに圧縮 */
+    @media (max-height: 690px){
+      .prompt{ font-size:24px; }
+      .choice{ padding: 9px 10px; font-size: 13px; }
+      .btn{ min-height: 36px; padding: 8px 10px; }
     }
   </style>
 </head>
 <body>
-  <div class="app" id="appRoot">
+  <div class="app">
     <div class="topbar">
       <div style="min-width:0;">
         <h1 class="title">英会話用単語1000本ノック</h1>
         <div class="status" id="statusText">読み込み中…</div>
       </div>
-
-      <div class="right">
-        <button class="btn hamburger" id="btnMenu" aria-label="menu"><span></span></button>
-      </div>
+      <button class="btn hamburger" id="btnMenu" aria-label="menu"><span></span></button>
     </div>
 
     <div class="main">
@@ -284,31 +269,25 @@
       <div class="answer" id="answer"></div>
 
       <div class="bottomActions">
-        <button class="btn primary" id="btnNext">次の問題</button>
+        <button class="btn primary" id="btnNext">次へ</button>
         <button class="btn blue" id="btnToggleReview" disabled>復習リストへ</button>
       </div>
     </div>
   </div>
 
-  <!-- Drawer -->
   <div class="drawerOverlay" id="drawerOverlay"></div>
   <div class="drawer" id="drawer">
     <h2>メニュー</h2>
 
-    <div class="row">
-      <div class="k">出題モード</div>
-      <select id="mode">
-        <option value="all">全体</option>
-        <option value="review">要復習</option>
-        <option value="unseen">未出題</option>
-      </select>
-    </div>
+    <span class="k">出題モード</span>
+    <select id="mode">
+      <option value="all">全体</option>
+      <option value="review">要復習</option>
+      <option value="unseen">未出題</option>
+    </select>
 
-    <div class="row">
-      <button class="btn ghost" id="btnClearReview">復習リスト全解除</button>
-      <button class="btn danger" id="btnResetSeen">未出題をリセット</button>
-    </div>
-
+    <button class="btn ghost" id="btnClearReview">復習リスト全解除</button>
+    <button class="btn danger" id="btnResetSeen">未出題をリセット</button>
     <button class="btn ghost" id="btnCloseMenu">閉じる</button>
   </div>
 
@@ -339,16 +318,14 @@
   function saveSet(key, set){
     localStorage.setItem(key, JSON.stringify(Array.from(set)));
   }
-
-  function getReviewSet(){ return loadSet(KEY_REVIEW); }
-  function getSeenSet(){ return loadSet(KEY_SEEN); }
+  const getReviewSet = () => loadSet(KEY_REVIEW);
+  const getSeenSet = () => loadSet(KEY_SEEN);
 
   // CSV parser
   function parseCSV(text) {
     const rows = [];
     let i = 0, field = "", row = [];
     let inQuotes = false;
-
     while (i < text.length) {
       const c = text[i];
       if (inQuotes) {
@@ -368,7 +345,6 @@
     return rows;
   }
   function norm(h){ return (h||"").trim().toLowerCase(); }
-
   function rowsToItems(rows){
     if(!rows.length) return [];
     const header = rows[0].map(norm);
@@ -397,7 +373,6 @@
     }
     return out;
   }
-
   async function fetchCSV(url){
     const res = await fetch(url, { cache:"no-store" });
     if(!res.ok) throw new Error(`CSV取得失敗: ${url} (${res.status})`);
@@ -429,7 +404,6 @@
     const seen = getSeenSet();
 
     let pool = items;
-
     if(mode === "review"){
       pool = items.filter(x => review.has(x.id));
       if(!pool.length) return null;
@@ -437,17 +411,7 @@
       pool = items.filter(x => !seen.has(x.id));
       if(!pool.length) return null;
     }
-
     return pool[Math.floor(Math.random()*pool.length)];
-  }
-
-  function escapeHTML(s){
-    return String(s ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
   }
 
   function setStatus(text){ el("statusText").textContent = text; }
@@ -457,34 +421,28 @@
     const seen = getSeenSet();
     const total = items.length;
     const unseen = Math.max(0, total - seen.size);
-    setStatus(`読み込み: ${total} / 要復習: ${review.size} / 未出題: ${unseen}`);
+    setStatus(`読み込み:${total} / 要復習:${review.size} / 未出題:${unseen}`);
   }
 
   function refreshReviewButton(){
     const btn = el("btnToggleReview");
     if(!current){ btn.disabled = true; btn.textContent = "復習リストへ"; return; }
     btn.disabled = false;
-
     const review = getReviewSet();
     const inList = review.has(current.id);
-    btn.textContent = inList ? "復習リストから外す" : "復習リストへ";
-
-    // 答え表示にも反映
-    const badge = document.getElementById("reviewBadge");
-    if(badge) badge.innerHTML = `<span class="dot"></span>${inList ? "要復習：ON" : "要復習：OFF"}`;
+    btn.textContent = inList ? "復習OFF" : "復習へ";
   }
 
   function renderQuestion(){
     current = pickItem();
-
     el("answer").style.display = "none";
     el("answer").innerHTML = "";
     el("choices").innerHTML = "";
 
     if(!current){
       const mode = el("mode").value;
-      if(mode === "review") el("prompt").textContent = "要復習が空です（『復習リストへ』で追加）";
-      else if(mode === "unseen") el("prompt").textContent = "未出題がありません（メニュー→未出題リセット）";
+      if(mode === "review") el("prompt").textContent = "要復習が空です";
+      else if(mode === "unseen") el("prompt").textContent = "未出題がありません";
       else el("prompt").textContent = "出題できません";
       refreshReviewButton();
       return;
@@ -508,9 +466,16 @@
 
     refreshReviewButton();
     updateStatusLine();
+    window.scrollTo({ top:0, left:0, behavior:"auto" });
+  }
 
-    // 「次の問題」でスクロール発生しにくくする：常に先頭へ
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  function escapeHTML(s){
+    return String(s ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
   }
 
   function showAnswer(isMatch){
@@ -521,16 +486,24 @@
     el("answer").innerHTML = `
       <div class="answerTop">
         <span class="badge"><span class="dot ${isMatch ? "green" : "warn"}"></span>${isMatch ? "一致" : "不一致"}</span>
-        <span class="badge" id="reviewBadge"><span class="dot"></span>${inList ? "要復習：ON" : "要復習：OFF"}</span>
+        <span class="badge"><span class="dot"></span>${inList ? "要復習:ON" : "要復習:OFF"}</span>
+        <span class="badge k">ID:<span class="mono">${current.id}</span></span>
       </div>
-      <div class="kv"><span class="k">答え</span><br><b>${escapeHTML(current.expression)}</b> — ${escapeHTML(current.meaning)}</div>
-      <div class="kv"><span class="k">例文（EN）</span><br>${escapeHTML(current.example_en)}</div>
-      <div class="kv"><span class="k">例文（JA）</span><br>${escapeHTML(current.example_ja)}</div>
-      <div class="kv k">ID: <span class="mono">${current.id}</span></div>
+
+      <div class="answerLine">
+        <span class="k">答え</span><br>
+        <b>${escapeHTML(current.expression)}</b> — ${escapeHTML(current.meaning)}
+      </div>
+
+      <details>
+        <summary>詳細（例文）▼</summary>
+        <div class="detailText"><span class="k">EN</span><br>${escapeHTML(current.example_en)}</div>
+        <div class="detailText"><span class="k">JA</span><br>${escapeHTML(current.example_ja)}</div>
+      </details>
     `;
 
-    // 画面内に答えが収まらない端末でも、横スクロールはさせない
-    // 縦は許容（必要最小限）
+    // スクロールを極力発生させない（答えが表示される位置へ軽く合わせる）
+    setTimeout(() => el("answer").scrollIntoView({ behavior:"smooth", block:"nearest" }), 30);
   }
 
   function toggleReview(){
@@ -555,7 +528,7 @@
     if(el("mode").value === "unseen") renderQuestion();
   }
 
-  // ===== Drawer =====
+  // Drawer
   function openDrawer(){
     el("drawerOverlay").style.display = "block";
     el("drawer").style.display = "block";
@@ -569,7 +542,7 @@
   el("drawerOverlay").onclick = closeDrawer;
   el("btnCloseMenu").onclick = closeDrawer;
 
-  // ===== UI wiring =====
+  // UI
   el("btnNext").onclick = renderQuestion;
   el("btnToggleReview").onclick = toggleReview;
 
@@ -582,12 +555,13 @@
     if(confirm("復習リストを全解除します。OK？")) clearReview();
     closeDrawer();
   };
+
   el("btnResetSeen").onclick = () => {
     if(confirm("未出題（出題履歴）をリセットします。OK？")) resetSeen();
     closeDrawer();
   };
 
-  // ===== Boot =====
+  // Boot
   (async () => {
     try{
       setStatus("読み込み中…");
@@ -603,13 +577,12 @@
       updateStatusLine();
       renderQuestion();
     }catch(e){
-      setStatus("CSV読み込み失敗：ファイル名/配置/パスを確認してください");
+      setStatus("CSV読み込み失敗：ファイル名/配置/パスを確認");
       el("prompt").textContent = "CSVの読み込みに失敗しました";
       el("choices").innerHTML = "";
       console.error(e);
     }
   })();
-
 })();
 </script>
 </body>
