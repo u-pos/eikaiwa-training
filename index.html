@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vocab Quiz (Progress via localStorage)</title>
+  <style>
+    :root { --bg:#0b0f17; --card:#111827; --fg:#e5e7eb; --muted:#9ca3af; --accent:#22c55e; --warn:#f59e0b; --bad:#ef4444; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; background:var(--bg); color:var(--fg); }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 18px; }
+    .row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    .card { background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:16px; }
+    h1 { font-size: 18px; margin: 0 0 10px; }
+    .muted { color: var(--muted); font-size: 13px; }
+    button, select, input[type="text"] { border-radius: 10px; border:1px solid rgba(255,255,255,.12); background:#0f172a; color:var(--fg); padding:10px 12px; font-size:14px; }
+    button { cursor:pointer; }
+    button.primary { background: #16a34a; border-color:#16a34a; }
+    button.warn { background: #b45309; border-color:#b45309; }
+    button.bad { background: #b91c1c; border-color:#b91c1c; }
+    button.ghost { background: transparent; }
+    .big { font-size: 26px; font-weight: 700; letter-spacing: .2px; }
+    .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
+    .choices { display:grid; gap:10px; margin-top: 10px; }
+    .choice { text-align:left; width:100%; }
+    .pill { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius: 999px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); font-size: 12px; }
+    .pill .dot { width:8px; height:8px; border-radius:999px; background: var(--accent); }
+    .pill.warn .dot { background: var(--warn); }
+    .pill.bad .dot { background: var(--bad); }
+    .answerBox { margin-top: 12px; padding: 12px; border-radius: 12px; border:1px dashed rgba(255,255,255,.18); background: rgba(255,255,255,.03); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .spacer { height: 8px; }
+    a { color: #93c5fd; }
+    .topbar { display:flex; justify-content: space-between; align-items:center; gap:12px; }
+    .stat { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .k { color: var(--muted); font-size: 12px; }
+    .v { font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="topbar">
+        <div>
+          <h1>Vocab Quiz（localStorage進捗）</h1>
+          <div class="muted">「間違えた＝自動で要復習にマーク」→ 復習モードで優先出題</div>
+        </div>
+        <div class="stat">
+          <span class="pill"><span class="dot"></span><span><span class="k">Loaded</span> <span class="v" id="statLoaded">0</span></span></span>
+          <span class="pill warn"><span class="dot"></span><span><span class="k">Flagged</span> <span class="v" id="statFlagged">0</span></span></span>
+          <span class="pill bad"><span class="dot"></span><span><span class="k">Wrong</span> <span class="v" id="statWrong">0</span></span></span>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="row">
+        <label class="pill ghost">
+          <span class="k">CSVファイルを選択</span>
+          <input id="csvFile" type="file" accept=".csv" />
+        </label>
+
+        <select id="mode">
+          <option value="mix">通常（全体から）</option>
+          <option value="review">復習（要復習のみ）</option>
+        </select>
+
+        <select id="direction">
+          <option value="en2ja">英 → 日</option>
+          <option value="ja2en">日 → 英</option>
+        </select>
+
+        <button class="primary" id="btnNext">次の問題</button>
+        <button class="warn" id="btnResetFlags">要復習を全解除</button>
+        <button class="bad" id="btnResetAll">進捗を全リセット</button>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="grid2">
+        <div class="card">
+          <div class="muted">問題</div>
+          <div class="big" id="prompt">CSVを読み込むと出題できます</div>
+
+          <div class="choices" id="choices" style="display:none;"></div>
+
+          <div class="row" style="margin-top:10px;">
+            <input id="textAnswer" type="text" placeholder="日→英のとき入力（Enterで判定）" style="flex:1; display:none;" />
+            <button id="btnCheckText" class="primary" style="display:none;">判定</button>
+          </div>
+
+          <div class="answerBox" id="answerBox" style="display:none;"></div>
+        </div>
+
+        <div class="card">
+          <div class="muted">設定/説明</div>
+          <ul class="muted" style="margin:8px 0 0; padding-left:18px; line-height:1.7;">
+            <li>不正解にすると <span class="mono">flagged=1</span> と <span class="mono">wrong_count</span> が保存されます。</li>
+            <li>復習モードは、要復習だけをランダム出題します。</li>
+            <li>保存先はブラウザの <span class="mono">localStorage</span>（同じ端末・同じブラウザで保持）。</li>
+            <li>CSVはこの列が必要：<span class="mono">id,expression,meaning,example_en,example_ja</span></li>
+          </ul>
+          <div class="spacer"></div>
+          <div class="muted">デフォCSV読込（同フォルダの <span class="mono">vocab_001_1000_merged.csv</span>）も試します。失敗したら手動選択してください。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const PROGRESS_KEY = "vocab_progress_v1";
+  const DEFAULT_CSV_URL = "vocab_001_1000_merged.csv";
+
+  /** @type {{id:number, expression:string, meaning:string, example_en:string, example_ja:string}[]} */
+  let items = [];
+  let current = null;
+
+  const el = (id) => document.getElementById(id);
+
+  function loadProgress() {
+    try { return JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}"); }
+    catch { return {}; }
+  }
+  function saveProgress(p) {
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+  }
+  function ensureProgressRow(p, id) {
+    if (!p[id]) p[id] = { flagged: false, wrong_count: 0, last_result: null, last_seen: null };
+    return p[id];
+  }
+  function markWrong(id) {
+    const p = loadProgress();
+    const r = ensureProgressRow(p, String(id));
+    r.flagged = true;
+    r.wrong_count += 1;
+    r.last_result = "wrong";
+    r.last_seen = new Date().toISOString();
+    saveProgress(p);
+    updateStats();
+  }
+  function markCorrect(id) {
+    const p = loadProgress();
+    const r = ensureProgressRow(p, String(id));
+    r.last_result = "correct";
+    r.last_seen = new Date().toISOString();
+    // 正解したら自動でflag外す（外したくないなら次行をコメントアウト）
+    r.flagged = false;
+    saveProgress(p);
+    updateStats();
+  }
+  function getFlaggedIdsSet() {
+    const p = loadProgress();
+    const s = new Set();
+    for (const [id, v] of Object.entries(p)) if (v?.flagged) s.add(Number(id));
+    return s;
+  }
+
+  function resetFlags() {
+    const p = loadProgress();
+    for (const k of Object.keys(p)) {
+      if (p[k]) p[k].flagged = false;
+    }
+    saveProgress(p);
+    updateStats();
+  }
+  function resetAllProgress() {
+    localStorage.removeItem(PROGRESS_KEY);
+    updateStats();
+  }
+
+  function updateStats() {
+    const p = loadProgress();
+    let flagged = 0;
+    let wrongTotal = 0;
+    for (const v of Object.values(p)) {
+      if (!v) continue;
+      if (v.flagged) flagged += 1;
+      if (typeof v.wrong_count === "number") wrongTotal += v.wrong_count;
+    }
+    el("statLoaded").textContent = String(items.length);
+    el("statFlagged").textContent = String(flagged);
+    el("statWrong").textContent = String(wrongTotal);
+  }
+
+  // --- CSV parsing (simple, robust enough for our dataset) ---
+  // Handles quoted fields, commas, and newlines inside quotes.
+  function parseCSV(text) {
+    const rows = [];
+    let i = 0, field = "", row = [];
+    let inQuotes = false;
+
+    while (i < text.length) {
+      const c = text[i];
+
+      if (inQuotes) {
+        if (c === '"') {
+          // escaped quote
+          if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
+          inQuotes = false; i++; continue;
+        } else {
+          field += c; i++; continue;
+        }
+      } else {
+        if (c === '"') { inQuotes = true; i++; continue; }
+        if (c === ",") { row.push(field); field = ""; i++; continue; }
+        if (c === "\r") { i++; continue; }
+        if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; i++; continue; }
+        field += c; i++; continue;
+      }
+    }
+    row.push(field);
+    rows.push(row);
+    return rows;
+  }
+
+  function normalizeHeader(h) {
+    return (h || "").trim().toLowerCase();
+  }
+
+  function rowsToItems(rows) {
+    if (!rows.length) return [];
+    const header = rows[0].map(normalizeHeader);
+    const idx = {
+      id: header.indexOf("id"),
+      expression: header.indexOf("expression"),
+      meaning: header.indexOf("meaning"),
+      example_en: header.indexOf("example_en"),
+      example_ja: header.indexOf("example_ja"),
+    };
+    for (const [k, v] of Object.entries(idx)) {
+      if (v === -1) throw new Error(`CSV header missing: ${k}`);
+    }
+
+    const out = [];
+    for (let r = 1; r < rows.length; r++) {
+      const row = rows[r];
+      if (row.length === 1 && row[0].trim() === "") continue;
+      const id = Number(row[idx.id]);
+      if (!Number.isFinite(id)) continue;
+      out.push({
+        id,
+        expression: (row[idx.expression] ?? "").trim(),
+        meaning: (row[idx.meaning] ?? "").trim(),
+        example_en: (row[idx.example_en] ?? "").trim(),
+        example_ja: (row[idx.example_ja] ?? "").trim(),
+      });
+    }
+    out.sort((a,b) => a.id - b.id);
+    return out;
+  }
+
+  async function loadCSVFromURL(url) {
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Failed to fetch CSV: ${res.status}`);
+    const text = await res.text();
+    const rows = parseCSV(text);
+    return rowsToItems(rows);
+  }
+
+  function loadCSVFromFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error("File read error"));
+      reader.onload = () => {
+        try {
+          const rows = parseCSV(String(reader.result || ""));
+          resolve(rowsToItems(rows));
+        } catch (e) { reject(e); }
+      };
+      reader.readAsText(file, "utf-8");
+    });
+  }
+
+  // --- Quiz logic ---
+  function pickItem() {
+    if (!items.length) return null;
+    const mode = el("mode").value;
+    const flaggedSet = getFlaggedIdsSet();
+
+    let pool = items;
+    if (mode === "review") {
+      pool = items.filter(x => flaggedSet.has(x.id));
+      if (!pool.length) return null;
+    }
+    const idx = Math.floor(Math.random() * pool.length);
+    return pool[idx];
+  }
+
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function buildChoices(correct, direction) {
+    // 4 choices total
+    const pool = items;
+    const choices = new Set();
+    const correctText = direction === "en2ja" ? correct.meaning : correct.expression;
+    choices.add(correctText);
+
+    while (choices.size < 4) {
+      const cand = pool[Math.floor(Math.random() * pool.length)];
+      const t = direction === "en2ja" ? cand.meaning : cand.expression;
+      if (t && t !== correctText) choices.add(t);
+    }
+    return shuffle(Array.from(choices));
+  }
+
+  function renderQuestion() {
+    current = pickItem();
+    el("answerBox").style.display = "none";
+    el("answerBox").innerHTML = "";
+
+    if (!current) {
+      const mode = el("mode").value;
+      el("prompt").textContent = mode === "review"
+        ? "要復習が0件です（通常モードで間違いを作るか、要復習を増やしてください）"
+        : "出題できません（CSV未読込の可能性）";
+      el("choices").style.display = "none";
+      el("textAnswer").style.display = "none";
+      el("btnCheckText").style.display = "none";
+      return;
+    }
+
+    const direction = el("direction").value;
+
+    if (direction === "en2ja") {
+      el("prompt").textContent = current.expression;
+
+      const choices = buildChoices(current, direction);
+      const ctn = el("choices");
+      ctn.innerHTML = "";
+      for (const ch of choices) {
+        const btn = document.createElement("button");
+        btn.className = "choice";
+        btn.textContent = ch;
+        btn.onclick = () => checkChoice(ch);
+        ctn.appendChild(btn);
+      }
+      ctn.style.display = "grid";
+
+      el("textAnswer").style.display = "none";
+      el("btnCheckText").style.display = "none";
+    } else {
+      // ja2en
+      el("prompt").textContent = current.meaning;
+      el("choices").style.display = "none";
+      el("textAnswer").value = "";
+      el("textAnswer").style.display = "block";
+      el("btnCheckText").style.display = "inline-block";
+      el("textAnswer").focus();
+    }
+
+    updateStats();
+  }
+
+  function showAnswer(isCorrect) {
+    const box = el("answerBox");
+    box.style.display = "block";
+    const status = isCorrect ? "✅ 正解" : "❌ 不正解（要復習にマーク）";
+    box.innerHTML = `
+      <div class="mono" style="font-weight:700;">${status}</div>
+      <div class="spacer"></div>
+      <div><span class="k">答え:</span> <span class="v">${escapeHTML(current.expression)}</span> — ${escapeHTML(current.meaning)}</div>
+      <div class="spacer"></div>
+      <div class="k">例文（EN）</div>
+      <div>${escapeHTML(current.example_en)}</div>
+      <div class="spacer"></div>
+      <div class="k">例文（JA）</div>
+      <div>${escapeHTML(current.example_ja)}</div>
+      <div class="spacer"></div>
+      <div class="muted">ID: <span class="mono">${current.id}</span></div>
+    `;
+  }
+
+  function escapeHTML(s) {
+    return String(s ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function checkChoice(chosen) {
+    const correct = current.meaning;
+    const ok = chosen === correct;
+    if (ok) markCorrect(current.id);
+    else markWrong(current.id);
+    showAnswer(ok);
+  }
+
+  function normalizeAnswer(s) {
+    return String(s ?? "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ");
+  }
+
+  function checkTextAnswer() {
+    const typed = normalizeAnswer(el("textAnswer").value);
+    const correct = normalizeAnswer(current.expression);
+
+    // ゆるめ判定：完全一致 or 先頭一致（句動詞などで余計な空白対策）
+    const ok = typed === correct;
+
+    if (ok) markCorrect(current.id);
+    else markWrong(current.id);
+    showAnswer(ok);
+  }
+
+  // --- Wire up UI ---
+  el("btnNext").onclick = renderQuestion;
+  el("btnResetFlags").onclick = () => {
+    if (confirm("要復習フラグを全解除します。OK？")) resetFlags();
+  };
+  el("btnResetAll").onclick = () => {
+    if (confirm("進捗を全リセットします（間違い回数なども消えます）。OK？")) resetAllProgress();
+  };
+
+  el("mode").onchange = renderQuestion;
+  el("direction").onchange = renderQuestion;
+
+  el("btnCheckText").onclick = checkTextAnswer;
+  el("textAnswer").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") checkTextAnswer();
+  });
+
+  el("csvFile").addEventListener("change", async (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    try {
+      items = await loadCSVFromFile(f);
+      updateStats();
+      renderQuestion();
+    } catch (err) {
+      alert("CSV読み込みに失敗: " + (err?.message || err));
+    }
+  });
+
+  // Try auto-load CSV from same folder
+  (async () => {
+    try {
+      items = await loadCSVFromURL(DEFAULT_CSV_URL);
+      updateStats();
+      renderQuestion();
+    } catch {
+      // Silent fail; user can load via file input
+      updateStats();
+    }
+  })();
+
+})();
+</script>
+</body>
+</html>
