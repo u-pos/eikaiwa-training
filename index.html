@@ -2,187 +2,227 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Vocab Quiz (Progress via localStorage)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>英会話用単語1000本ノック</title>
   <style>
-    :root { --bg:#0b0f17; --card:#111827; --fg:#e5e7eb; --muted:#9ca3af; --accent:#22c55e; --warn:#f59e0b; --bad:#ef4444; }
-    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; background:var(--bg); color:var(--fg); }
-    .wrap { max-width: 920px; margin: 0 auto; padding: 18px; }
-    .row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-    .card { background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:16px; }
-    h1 { font-size: 18px; margin: 0 0 10px; }
-    .muted { color: var(--muted); font-size: 13px; }
-    button, select, input[type="text"] { border-radius: 10px; border:1px solid rgba(255,255,255,.12); background:#0f172a; color:var(--fg); padding:10px 12px; font-size:14px; }
-    button { cursor:pointer; }
-    button.primary { background: #16a34a; border-color:#16a34a; }
-    button.warn { background: #b45309; border-color:#b45309; }
-    button.bad { background: #b91c1c; border-color:#b91c1c; }
-    button.ghost { background: transparent; }
-    .big { font-size: 26px; font-weight: 700; letter-spacing: .2px; }
-    .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
-    @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
-    .choices { display:grid; gap:10px; margin-top: 10px; }
-    .choice { text-align:left; width:100%; }
-    .pill { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius: 999px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); font-size: 12px; }
-    .pill .dot { width:8px; height:8px; border-radius:999px; background: var(--accent); }
-    .pill.warn .dot { background: var(--warn); }
-    .pill.bad .dot { background: var(--bad); }
-    .answerBox { margin-top: 12px; padding: 12px; border-radius: 12px; border:1px dashed rgba(255,255,255,.18); background: rgba(255,255,255,.03); }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
-    .spacer { height: 8px; }
-    a { color: #93c5fd; }
-    .topbar { display:flex; justify-content: space-between; align-items:center; gap:12px; }
-    .stat { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-    .k { color: var(--muted); font-size: 12px; }
-    .v { font-weight: 700; }
+    :root{
+      --bg:#0b0f17; --card:#111827; --card2:#0f172a;
+      --fg:#e5e7eb; --muted:#9ca3af; --line:rgba(255,255,255,.10);
+      --accent:#22c55e; --accent2:#3b82f6; --warn:#f59e0b;
+      --danger:#ef4444;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+      background:var(--bg);
+      color:var(--fg);
+      -webkit-text-size-adjust: 100%;
+    }
+    .wrap{
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 14px 12px 24px;
+    }
+    .header{
+      padding: 14px 14px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+    .title{
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: .2px;
+    }
+    .subrow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top: 10px;
+    }
+    select, button{
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--card2);
+      color: var(--fg);
+      padding: 10px 12px;
+      font-size: 14px;
+      line-height: 1.1;
+      min-height: 42px;
+    }
+    select{ padding-right: 34px; }
+    button{ cursor:pointer; }
+    button.primary{ background:#16a34a; border-color:#16a34a; }
+    button.blue{ background:#2563eb; border-color:#2563eb; }
+    button.ghost{ background: transparent; }
+    button.danger{ background:#b91c1c; border-color:#b91c1c; }
+
+    .panel{
+      margin-top: 12px;
+      padding: 14px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+    .label{
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    .prompt{
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: .2px;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .choices{
+      display:grid;
+      gap:10px;
+      margin-top: 12px;
+    }
+    .choice{
+      width:100%;
+      text-align:left;
+      padding: 14px 14px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      font-size: 15px;
+      line-height: 1.25;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+    .choice:active{ transform: translateY(1px); }
+
+    /* Answer box: inline (no popup), so it won't overlap on mobile */
+    .answer{
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.03);
+    }
+    .answer .status{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom: 8px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      font-size: 12px;
+      color: var(--fg);
+      white-space: nowrap;
+    }
+    .dot{ width:8px; height:8px; border-radius:999px; background: var(--accent2); }
+    .dot.green{ background: var(--accent); }
+    .dot.warn{ background: var(--warn); }
+
+    .kv{ margin-top: 6px; line-height: 1.45; }
+    .k{ color: var(--muted); font-size: 12px; }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+    .btnrow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 12px;
+    }
+    .btnrow > button{ flex: 1 1 160px; }
+
+    /* Prevent iOS bottom bar overlap */
+    .safe-bottom{ padding-bottom: env(safe-area-inset-bottom); }
+
+    .tiny{
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="topbar">
-        <div>
-          <h1>Vocab Quiz（localStorage進捗）</h1>
-          <div class="muted">「間違えた＝自動で要復習にマーク」→ 復習モードで優先出題</div>
-        </div>
-        <div class="stat">
-          <span class="pill"><span class="dot"></span><span><span class="k">Loaded</span> <span class="v" id="statLoaded">0</span></span></span>
-          <span class="pill warn"><span class="dot"></span><span><span class="k">Flagged</span> <span class="v" id="statFlagged">0</span></span></span>
-          <span class="pill bad"><span class="dot"></span><span><span class="k">Wrong</span> <span class="v" id="statWrong">0</span></span></span>
-        </div>
-      </div>
+  <div class="wrap safe-bottom">
+    <div class="header">
+      <h1 class="title">英会話用単語1000本ノック</h1>
 
-      <div class="spacer"></div>
-      <div class="row">
-        <label class="pill ghost">
-          <span class="k">CSVファイルを選択</span>
-          <input id="csvFile" type="file" accept=".csv" />
-        </label>
-
+      <div class="subrow">
         <select id="mode">
-          <option value="mix">通常（全体から）</option>
-          <option value="review">復習（要復習のみ）</option>
-        </select>
-
-        <select id="direction">
-          <option value="en2ja">英 → 日</option>
-          <option value="ja2en">日 → 英</option>
+          <option value="all">全体</option>
+          <option value="review">要復習</option>
+          <option value="unseen">未出題</option>
         </select>
 
         <button class="primary" id="btnNext">次の問題</button>
-        <button class="warn" id="btnResetFlags">要復習を全解除</button>
-        <button class="bad" id="btnResetAll">進捗を全リセット</button>
+        <button class="blue" id="btnToggleReview" disabled>復習リストへ</button>
+        <button class="ghost" id="btnClearReview">復習リスト全解除</button>
+        <button class="danger" id="btnResetSeen">未出題をリセット</button>
       </div>
 
-      <div class="spacer"></div>
-      <div class="grid2">
-        <div class="card">
-          <div class="muted">問題</div>
-          <div class="big" id="prompt">CSVを読み込むと出題できます</div>
+      <div class="tiny" id="statusText">読み込み中…（CSVは自動で読み込みます）</div>
+    </div>
 
-          <div class="choices" id="choices" style="display:none;"></div>
+    <div class="panel">
+      <div class="label">問題（英→日）</div>
+      <div class="prompt" id="prompt">—</div>
 
-          <div class="row" style="margin-top:10px;">
-            <input id="textAnswer" type="text" placeholder="日→英のとき入力（Enterで判定）" style="flex:1; display:none;" />
-            <button id="btnCheckText" class="primary" style="display:none;">判定</button>
-          </div>
+      <div class="choices" id="choices"></div>
 
-          <div class="answerBox" id="answerBox" style="display:none;"></div>
-        </div>
-
-        <div class="card">
-          <div class="muted">設定/説明</div>
-          <ul class="muted" style="margin:8px 0 0; padding-left:18px; line-height:1.7;">
-            <li>不正解にすると <span class="mono">flagged=1</span> と <span class="mono">wrong_count</span> が保存されます。</li>
-            <li>復習モードは、要復習だけをランダム出題します。</li>
-            <li>保存先はブラウザの <span class="mono">localStorage</span>（同じ端末・同じブラウザで保持）。</li>
-            <li>CSVはこの列が必要：<span class="mono">id,expression,meaning,example_en,example_ja</span></li>
-          </ul>
-          <div class="spacer"></div>
-          <div class="muted">デフォCSV読込（同フォルダの <span class="mono">vocab_001_1000_merged.csv</span>）も試します。失敗したら手動選択してください。</div>
-        </div>
-      </div>
+      <div class="answer" id="answer" style="display:none;"></div>
     </div>
   </div>
 
 <script>
 (() => {
-  const PROGRESS_KEY = "vocab_progress_v1";
-  const DEFAULT_CSV_URL = "vocab_001_1000_merged.csv";
+  // ====== Settings ======
+  const CSV_URLS = [
+    "vocab_001_200.csv",
+    "vocab_201_400.csv",
+    "vocab_401_600.csv",
+    "vocab_601_800.csv",
+    "vocab_801_1000.csv",
+  ];
+
+  const KEY_REVIEW = "vocab_review_ids_v1"; // Set of ids (array saved)
+  const KEY_SEEN   = "vocab_seen_ids_v1";   // Set of ids (array saved)
 
   /** @type {{id:number, expression:string, meaning:string, example_en:string, example_ja:string}[]} */
   let items = [];
+  /** @type {null | {id:number, expression:string, meaning:string, example_en:string, example_ja:string}} */
   let current = null;
 
   const el = (id) => document.getElementById(id);
 
-  function loadProgress() {
-    try { return JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}"); }
-    catch { return {}; }
+  // ====== localStorage helpers ======
+  function loadSet(key){
+    try{
+      const arr = JSON.parse(localStorage.getItem(key) || "[]");
+      return new Set(Array.isArray(arr) ? arr : []);
+    }catch{ return new Set(); }
   }
-  function saveProgress(p) {
-    localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
-  }
-  function ensureProgressRow(p, id) {
-    if (!p[id]) p[id] = { flagged: false, wrong_count: 0, last_result: null, last_seen: null };
-    return p[id];
-  }
-  function markWrong(id) {
-    const p = loadProgress();
-    const r = ensureProgressRow(p, String(id));
-    r.flagged = true;
-    r.wrong_count += 1;
-    r.last_result = "wrong";
-    r.last_seen = new Date().toISOString();
-    saveProgress(p);
-    updateStats();
-  }
-  function markCorrect(id) {
-    const p = loadProgress();
-    const r = ensureProgressRow(p, String(id));
-    r.last_result = "correct";
-    r.last_seen = new Date().toISOString();
-    // 正解したら自動でflag外す（外したくないなら次行をコメントアウト）
-    r.flagged = false;
-    saveProgress(p);
-    updateStats();
-  }
-  function getFlaggedIdsSet() {
-    const p = loadProgress();
-    const s = new Set();
-    for (const [id, v] of Object.entries(p)) if (v?.flagged) s.add(Number(id));
-    return s;
+  function saveSet(key, set){
+    localStorage.setItem(key, JSON.stringify(Array.from(set)));
   }
 
-  function resetFlags() {
-    const p = loadProgress();
-    for (const k of Object.keys(p)) {
-      if (p[k]) p[k].flagged = false;
-    }
-    saveProgress(p);
-    updateStats();
-  }
-  function resetAllProgress() {
-    localStorage.removeItem(PROGRESS_KEY);
-    updateStats();
-  }
+  function getReviewSet(){ return loadSet(KEY_REVIEW); }
+  function getSeenSet(){ return loadSet(KEY_SEEN); }
 
-  function updateStats() {
-    const p = loadProgress();
-    let flagged = 0;
-    let wrongTotal = 0;
-    for (const v of Object.values(p)) {
-      if (!v) continue;
-      if (v.flagged) flagged += 1;
-      if (typeof v.wrong_count === "number") wrongTotal += v.wrong_count;
-    }
-    el("statLoaded").textContent = String(items.length);
-    el("statFlagged").textContent = String(flagged);
-    el("statWrong").textContent = String(wrongTotal);
-  }
-
-  // --- CSV parsing (simple, robust enough for our dataset) ---
-  // Handles quoted fields, commas, and newlines inside quotes.
+  // ====== CSV parsing (handles quotes/newlines) ======
   function parseCSV(text) {
     const rows = [];
     let i = 0, field = "", row = [];
@@ -193,7 +233,6 @@
 
       if (inQuotes) {
         if (c === '"') {
-          // escaped quote
           if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
           inQuotes = false; i++; continue;
         } else {
@@ -212,13 +251,11 @@
     return rows;
   }
 
-  function normalizeHeader(h) {
-    return (h || "").trim().toLowerCase();
-  }
+  function norm(h){ return (h||"").trim().toLowerCase(); }
 
-  function rowsToItems(rows) {
-    if (!rows.length) return [];
-    const header = rows[0].map(normalizeHeader);
+  function rowsToItems(rows){
+    if(!rows.length) return [];
+    const header = rows[0].map(norm);
     const idx = {
       id: header.indexOf("id"),
       expression: header.indexOf("expression"),
@@ -226,16 +263,15 @@
       example_en: header.indexOf("example_en"),
       example_ja: header.indexOf("example_ja"),
     };
-    for (const [k, v] of Object.entries(idx)) {
-      if (v === -1) throw new Error(`CSV header missing: ${k}`);
+    for(const k in idx){
+      if(idx[k] === -1) throw new Error("CSVヘッダー不足: " + k);
     }
-
     const out = [];
-    for (let r = 1; r < rows.length; r++) {
+    for(let r=1; r<rows.length; r++){
       const row = rows[r];
-      if (row.length === 1 && row[0].trim() === "") continue;
+      if(row.length === 1 && row[0].trim() === "") continue;
       const id = Number(row[idx.id]);
-      if (!Number.isFinite(id)) continue;
+      if(!Number.isFinite(id)) continue;
       out.push({
         id,
         expression: (row[idx.expression] ?? "").trim(),
@@ -244,231 +280,203 @@
         example_ja: (row[idx.example_ja] ?? "").trim(),
       });
     }
-    out.sort((a,b) => a.id - b.id);
     return out;
   }
 
-  async function loadCSVFromURL(url) {
+  async function fetchCSV(url){
     const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error(`Failed to fetch CSV: ${res.status}`);
+    if(!res.ok) throw new Error(`CSV取得失敗: ${url} (${res.status})`);
     const text = await res.text();
-    const rows = parseCSV(text);
-    return rowsToItems(rows);
+    return rowsToItems(parseCSV(text));
   }
 
-  function loadCSVFromFile(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onerror = () => reject(new Error("File read error"));
-      reader.onload = () => {
-        try {
-          const rows = parseCSV(String(reader.result || ""));
-          resolve(rowsToItems(rows));
-        } catch (e) { reject(e); }
-      };
-      reader.readAsText(file, "utf-8");
-    });
-  }
-
-  // --- Quiz logic ---
-  function pickItem() {
-    if (!items.length) return null;
-    const mode = el("mode").value;
-    const flaggedSet = getFlaggedIdsSet();
-
-    let pool = items;
-    if (mode === "review") {
-      pool = items.filter(x => flaggedSet.has(x.id));
-      if (!pool.length) return null;
+  // ====== Quiz logic ======
+  function shuffle(a){
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
     }
-    const idx = Math.floor(Math.random() * pool.length);
-    return pool[idx];
+    return a;
   }
 
-  function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-
-  function buildChoices(correct, direction) {
-    // 4 choices total
-    const pool = items;
-    const choices = new Set();
-    const correctText = direction === "en2ja" ? correct.meaning : correct.expression;
-    choices.add(correctText);
-
-    while (choices.size < 4) {
-      const cand = pool[Math.floor(Math.random() * pool.length)];
-      const t = direction === "en2ja" ? cand.meaning : cand.expression;
-      if (t && t !== correctText) choices.add(t);
+  function buildChoices(correct){
+    const choices = new Set([correct.meaning]);
+    while(choices.size < 4){
+      const cand = items[Math.floor(Math.random()*items.length)];
+      if(cand?.meaning && cand.meaning !== correct.meaning) choices.add(cand.meaning);
     }
     return shuffle(Array.from(choices));
   }
 
-  function renderQuestion() {
-    current = pickItem();
-    el("answerBox").style.display = "none";
-    el("answerBox").innerHTML = "";
+  function pickItem(){
+    if(!items.length) return null;
 
-    if (!current) {
+    const mode = el("mode").value;
+    const review = getReviewSet();
+    const seen = getSeenSet();
+
+    let pool = items;
+
+    if(mode === "review"){
+      pool = items.filter(x => review.has(x.id));
+      if(!pool.length) return null;
+    }
+    if(mode === "unseen"){
+      pool = items.filter(x => !seen.has(x.id));
+      if(!pool.length) return null;
+    }
+
+    return pool[Math.floor(Math.random()*pool.length)];
+  }
+
+  function escapeHTML(s){
+    return String(s ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function refreshReviewButton(){
+    const btn = el("btnToggleReview");
+    if(!current){ btn.disabled = true; btn.textContent = "復習リストへ"; return; }
+    btn.disabled = false;
+
+    const review = getReviewSet();
+    const inList = review.has(current.id);
+    btn.textContent = inList ? "復習リストから外す" : "復習リストへ";
+    btn.className = inList ? "blue" : "blue";
+  }
+
+  function setStatus(text){
+    el("statusText").textContent = text;
+  }
+
+  function renderQuestion(){
+    current = pickItem();
+    el("answer").style.display = "none";
+    el("answer").innerHTML = "";
+    el("choices").innerHTML = "";
+
+    if(!current){
       const mode = el("mode").value;
-      el("prompt").textContent = mode === "review"
-        ? "要復習が0件です（通常モードで間違いを作るか、要復習を増やしてください）"
-        : "出題できません（CSV未読込の可能性）";
-      el("choices").style.display = "none";
-      el("textAnswer").style.display = "none";
-      el("btnCheckText").style.display = "none";
+      if(mode === "review") el("prompt").textContent = "要復習が空です（『復習リストへ』で追加してください）";
+      else if(mode === "unseen") el("prompt").textContent = "未出題がありません（『未出題をリセット』で戻せます）";
+      else el("prompt").textContent = "出題できません";
+      refreshReviewButton();
       return;
     }
 
-    const direction = el("direction").value;
+    // mark seen
+    const seen = getSeenSet();
+    seen.add(current.id);
+    saveSet(KEY_SEEN, seen);
 
-    if (direction === "en2ja") {
-      el("prompt").textContent = current.expression;
+    el("prompt").textContent = current.expression;
 
-      const choices = buildChoices(current, direction);
-      const ctn = el("choices");
-      ctn.innerHTML = "";
-      for (const ch of choices) {
-        const btn = document.createElement("button");
-        btn.className = "choice";
-        btn.textContent = ch;
-        btn.onclick = () => checkChoice(ch);
-        ctn.appendChild(btn);
-      }
-      ctn.style.display = "grid";
-
-      el("textAnswer").style.display = "none";
-      el("btnCheckText").style.display = "none";
-    } else {
-      // ja2en
-      el("prompt").textContent = current.meaning;
-      el("choices").style.display = "none";
-      el("textAnswer").value = "";
-      el("textAnswer").style.display = "block";
-      el("btnCheckText").style.display = "inline-block";
-      el("textAnswer").focus();
+    const choices = buildChoices(current);
+    for(const ch of choices){
+      const b = document.createElement("button");
+      b.className = "choice";
+      b.textContent = ch;
+      b.onclick = () => showAnswer(ch === current.meaning);
+      el("choices").appendChild(b);
     }
 
-    updateStats();
+    refreshReviewButton();
+    updateTopStatusLine();
   }
 
-  function showAnswer(isCorrect) {
-    const box = el("answerBox");
+  function showAnswer(isCorrect){
+    // 正誤は「表示するだけ」に留める（進捗ロジックには使わない）
+    const review = getReviewSet();
+    const inList = current ? review.has(current.id) : false;
+
+    const box = el("answer");
     box.style.display = "block";
-    const status = isCorrect ? "✅ 正解" : "❌ 不正解（要復習にマーク）";
     box.innerHTML = `
-      <div class="mono" style="font-weight:700;">${status}</div>
-      <div class="spacer"></div>
-      <div><span class="k">答え:</span> <span class="v">${escapeHTML(current.expression)}</span> — ${escapeHTML(current.meaning)}</div>
-      <div class="spacer"></div>
-      <div class="k">例文（EN）</div>
-      <div>${escapeHTML(current.example_en)}</div>
-      <div class="spacer"></div>
-      <div class="k">例文（JA）</div>
-      <div>${escapeHTML(current.example_ja)}</div>
-      <div class="spacer"></div>
-      <div class="muted">ID: <span class="mono">${current.id}</span></div>
+      <div class="status">
+        <span class="badge"><span class="dot ${isCorrect ? "green" : "warn"}"></span>${isCorrect ? "一致" : "不一致"}</span>
+        <span class="badge"><span class="dot"></span>${inList ? "要復習：ON" : "要復習：OFF"}</span>
+      </div>
+
+      <div class="kv"><span class="k">答え</span><br><b>${escapeHTML(current.expression)}</b> — ${escapeHTML(current.meaning)}</div>
+      <div class="kv"><span class="k">例文（EN）</span><br>${escapeHTML(current.example_en)}</div>
+      <div class="kv"><span class="k">例文（JA）</span><br>${escapeHTML(current.example_ja)}</div>
+      <div class="kv k">ID: <span class="mono">${current.id}</span></div>
     `;
+
+    // iOSで「答え表示時にズレる」対策：表示後に少しだけスクロール調整（任意）
+    setTimeout(() => { box.scrollIntoView({ behavior:"smooth", block:"nearest" }); }, 50);
   }
 
-  function escapeHTML(s) {
-    return String(s ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+  function toggleReview(){
+    if(!current) return;
+    const review = getReviewSet();
+    if(review.has(current.id)) review.delete(current.id);
+    else review.add(current.id);
+    saveSet(KEY_REVIEW, review);
+    refreshReviewButton();
+    updateTopStatusLine();
   }
 
-  function checkChoice(chosen) {
-    const correct = current.meaning;
-    const ok = chosen === correct;
-    if (ok) markCorrect(current.id);
-    else markWrong(current.id);
-    showAnswer(ok);
+  function clearReview(){
+    saveSet(KEY_REVIEW, new Set());
+    refreshReviewButton();
+    updateTopStatusLine();
   }
 
-  function normalizeAnswer(s) {
-    return String(s ?? "")
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, " ");
+  function resetSeen(){
+    saveSet(KEY_SEEN, new Set());
+    updateTopStatusLine();
+    // 未出題モードなら即反映
+    if(el("mode").value === "unseen") renderQuestion();
   }
 
-  function checkTextAnswer() {
-    const typed = normalizeAnswer(el("textAnswer").value);
-    const correct = normalizeAnswer(current.expression);
-
-    // ゆるめ判定：完全一致 or 先頭一致（句動詞などで余計な空白対策）
-    const ok = typed === correct;
-
-    if (ok) markCorrect(current.id);
-    else markWrong(current.id);
-    showAnswer(ok);
+  function updateTopStatusLine(){
+    const review = getReviewSet();
+    const seen = getSeenSet();
+    const total = items.length;
+    const reviewCount = review.size;
+    const unseenCount = Math.max(0, total - seen.size);
+    setStatus(`読み込み: ${total} / 要復習: ${reviewCount} / 未出題: ${unseenCount}`);
   }
 
-  // --- Wire up UI ---
+  // ====== UI wiring ======
   el("btnNext").onclick = renderQuestion;
-  el("btnResetFlags").onclick = () => {
-    if (confirm("要復習フラグを全解除します。OK？")) resetFlags();
+  el("btnToggleReview").onclick = toggleReview;
+  el("btnClearReview").onclick = () => {
+    if(confirm("復習リストを全解除します。OK？")) clearReview();
   };
-  el("btnResetAll").onclick = () => {
-    if (confirm("進捗を全リセットします（間違い回数なども消えます）。OK？")) resetAllProgress();
+  el("btnResetSeen").onclick = () => {
+    if(confirm("未出題（出題履歴）をリセットします。OK？")) resetSeen();
   };
-
   el("mode").onchange = renderQuestion;
-  el("direction").onchange = renderQuestion;
 
-  el("btnCheckText").onclick = checkTextAnswer;
-  el("textAnswer").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") checkTextAnswer();
-  });
-
-  el("csvFile").addEventListener("change", async (e) => {
-    const f = e.target.files?.[0];
-    if (!f) return;
-    try {
-      items = await loadCSVFromFile(f);
-      updateStats();
-      renderQuestion();
-    } catch (err) {
-      alert("CSV読み込みに失敗: " + (err?.message || err));
-    }
-  });
-
-  // Try auto-load CSV from same folder
+  // ====== Boot ======
   (async () => {
-  const urls = [
-    "vocab_001_200.csv",
-    "vocab_201_400.csv",
-    "vocab_401_600.csv",
-    "vocab_601_800.csv",
-    "vocab_801_1000.csv",
-  ];
+    try{
+      setStatus("読み込み中…");
+      const merged = [];
+      for(const url of CSV_URLS){
+        const part = await fetchCSV(url);
+        merged.push(...part);
+      }
+      // de-dup by id
+      const map = new Map();
+      for(const it of merged) map.set(it.id, it);
+      items = Array.from(map.values()).sort((a,b)=>a.id-b.id);
 
-  try {
-    let merged = [];
-    for (const url of urls) {
-      const part = await loadCSVFromURL(url);
-      merged = merged.concat(part);
+      updateTopStatusLine();
+      renderQuestion();
+    }catch(e){
+      setStatus("CSVが読み込めませんでした。ファイル名/配置/パスを確認してください。");
+      el("prompt").textContent = "CSVの読み込みに失敗しました";
+      el("choices").innerHTML = "";
+      console.error(e);
     }
-
-    // 重複ID除去＆整列
-    const map = new Map();
-    for (const it of merged) map.set(it.id, it);
-    items = Array.from(map.values()).sort((a,b) => a.id - b.id);
-
-    updateStats();
-    renderQuestion();
-  } catch {
-    updateStats();
-  }
-})();
-
+  })();
 
 })();
 </script>
