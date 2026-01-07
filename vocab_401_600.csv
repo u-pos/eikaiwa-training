@@ -1,0 +1,201 @@
+id,expression,meaning,example_en,example_ja
+401,break the ice,場を和ませる,He told a joke to break the ice.,彼は場を和ませるために冗談を言った。
+402,call it even,これでおあいこ,Let’s call it even.,これでおあいこにしよう。
+403,come clean,正直に話す,He finally came clean.,彼はついに正直に話した。
+404,cut corners,手を抜く,They cut corners to save money.,彼らは節約のため手を抜いた。
+405,draw the line,一線を引く,I had to draw the line.,一線を引く必要があった。
+406,face up to,向き合う,You need to face up to it.,それに向き合う必要がある。
+407,get carried away,調子に乗る,I got carried away.,調子に乗りすぎた。
+408,get cold feet,怖気づく,He got cold feet.,彼は怖気づいた。
+409,get over,乗り越える,She got over it.,彼女は乗り越えた。
+410,go all out,全力を出す,Let’s go all out.,全力でいこう。
+411,hit the spot,ちょうど良い,That coffee hit the spot.,そのコーヒーはちょうど良かった。
+412,keep an eye on,注意して見る,Keep an eye on it.,注意して見て。
+413,leave it at that,それ以上言わない,Let’s leave it at that.,それ以上は言わないでおこう。
+414,make up for,埋め合わせる,I’ll make up for it.,埋め合わせるよ。
+415,miss the point,要点を外す,You missed the point.,要点を外している。
+416,play along,話を合わせる,I played along.,話を合わせた。
+417,push the limit,限界に挑む,He pushed the limit.,限界に挑んだ。
+418,read between the lines,行間を読む,Read between the lines.,行間を読んで。
+419,ring a bell,心当たりがある,That rings a bell.,聞き覚えがある。
+420,roll with it,流れに任せる,Just roll with it.,流れに任せよう。
+421,see eye to eye,意見が一致する,We don’t see eye to eye.,意見が一致しない。
+422,shoot down,却下する,They shot it down.,却下された。
+423,sit tight,じっと待つ,Sit tight for now.,今は待って。
+424,sweep it under the rug,見て見ぬふり,They swept it under the rug.,問題を隠した。
+425,take a hint,察する,Take a hint.,察して。
+426,take it personally,個人的に受け取る,Don’t take it personally.,個人的に受け取らないで。
+427,think it through,よく考える,Think it through.,よく考えて。
+428,throw in the towel,諦める,He threw in the towel.,彼は諦めた。
+429,turn a blind eye,見て見ぬふり,They turned a blind eye.,見て見ぬふりをした。
+430,work things out,解決する,We’ll work things out.,解決しよう。
+431,angle,見方,That’s one angle.,それも一つの見方だ。
+432,assumption,思い込み,That’s an assumption.,それは思い込みだ。
+433,catch,落とし穴,There’s a catch.,落とし穴がある。
+434,clue,手がかり,I have no clue.,全く分からない。
+435,compromise,妥協,We need a compromise.,妥協が必要だ。
+436,concern,懸念,That’s my concern.,それが懸念だ。
+437,confidence boost,自信がつく,That gave me a confidence boost.,それで自信がついた。
+438,connection,つながり,There’s a connection.,つながりがある。
+439,contrast,対比,The contrast is clear.,対比がはっきりしている。
+440,curveball,想定外,That was a curveball.,想定外だった。
+441,deadline,締め切り,We missed the deadline.,締め切りに間に合わなかった。
+442,detail-oriented,細部重視,She’s detail-oriented.,彼女は細部重視だ。
+443,difference maker,決定打,That was the difference maker.,それが決定打だった。
+444,downside,欠点,What’s the downside?,欠点は？
+445,edge,強み,We have an edge.,強みがある。
+446,expectations gap,期待のズレ,There’s an expectations gap.,期待のズレがある。
+447,gray area,グレーゾーン,It’s a gray area.,グレーゾーンだ。
+448,headspace,精神状態,I’m not in the right headspace.,今その余裕がない。
+449,learning curve,習熟曲線,There’s a learning curve.,慣れが必要だ。
+450,make-or-break,成否を分ける,This is make-or-break.,成否を分ける局面だ。
+451,on paper,理論上は,On paper, it works.,理論上はうまくいく。
+452,pain point,課題点,That’s the main pain point.,それが主な課題だ。
+453,pattern,傾向,There’s a pattern.,傾向がある。
+454,red flag,危険信号,That’s a red flag.,それは危険信号だ。
+455,room for improvement,改善の余地,There’s room for improvement.,改善の余地がある。
+456,scale up,拡大する,We need to scale up.,拡大する必要がある。
+457,side effect,副作用,There’s a side effect.,副作用がある。
+458,trade-off,トレードオフ,It’s a trade-off.,トレードオフだ。
+459,turning point,転機,That was a turning point.,それが転機だった。
+460,win-win,双方得,It’s win-win.,双方に得だ。
+461,kind of annoying,ちょっとウザい,That’s kind of annoying.,ちょっとウザい。
+462,pretty intense,かなりきつい,It was pretty intense.,かなりきつかった。
+463,low effort,手軽,That’s low effort.,手軽だ。
+464,high stakes,重要局面,It’s high stakes.,重要な局面だ。
+465,next-level,次元が違う,That’s next-level.,次元が違う。
+466,off the record,内密に,Off the record.,内密に。
+467,over the long haul,長い目で,Over the long haul, it helps.,長い目で見れば役立つ。
+468,under the radar,目立たず,It stayed under the radar.,目立たずに済んだ。
+469,worth the hassle,手間の価値あり,It’s worth the hassle.,手間をかける価値がある。
+470,kind of clutch,助けになる,That was clutch.,助かった。
+471,as expected,予想通り,As expected.,予想通り。
+472,back-to-back,連続で,Two back-to-back meetings.,会議が連続だ。
+473,by design,意図的に,It’s by design.,意図的だ。
+474,down to the wire,ぎりぎり,It went down to the wire.,ぎりぎりだった。
+475,in plain sight,目の前に,It was in plain sight.,目の前にあった。
+476,in real time,リアルタイムで,We saw it in real time.,リアルタイムで見た。
+477,in sync,息が合う,We’re in sync.,息が合っている。
+478,just in case,念のため,Bring it just in case.,念のため持ってきて。
+479,more often than not,たいてい,More often than not, yes.,たいていそうだ。
+480,now that,今や,Now that we know…,今や分かったから。
+481,one way or another,何とかして,We’ll fix it one way or another.,何とか直す。
+482,over time,時間とともに,It improved over time.,時間とともに良くなった。
+483,right off the bat,最初から,Right off the bat, no.,最初から無理。
+484,step by step,段階的に,Go step by step.,段階的に進めよう。
+485,up close,間近で,See it up close.,間近で見て。
+486,with that said,それを踏まえて,With that said, let’s go.,それを踏まえて行こう。
+487,you’re all set,準備万端,You’re all set.,準備万端だ。
+488,a mixed bag,良し悪し,It’s a mixed bag.,良し悪しだ。
+489,all ears,聞くよ,I’m all ears.,聞くよ。
+490,behind the scenes,裏で,It happened behind the scenes.,裏で起きた。
+491,by far,断然,By far the best.,断然一番。
+492,down to earth,現実的,He’s down to earth.,彼は現実的だ。
+493,hard to come by,手に入りにくい,It’s hard to come by.,手に入りにくい。
+494,in a nutshell,要するに,In a nutshell, no.,要するに無理。
+495,in the same boat,同じ立場,We’re in the same boat.,同じ立場だ。
+496,know the drill,要領を得ている,I know the drill.,分かってる。
+497,make waves,波風立てる,He made waves.,波風を立てた。
+498,off the top of my head,思いつきで,Off the top of my head, no.,思いつかない。
+499,out of the loop,蚊帳の外,I’m out of the loop.,蚊帳の外だ。
+500,put it mildly,控えめに言って,To put it mildly…,控えめに言って。
+501,right up your alley,向いている,It’s right up your alley.,君向きだ。
+502,second to none,最高レベル,It’s second to none.,最高レベルだ。
+503,sooner rather than later,早めに,Do it sooner rather than later.,早めにやろう。
+504,spill the beans,秘密を漏らす,He spilled the beans.,秘密を漏らした。
+505,think twice,よく考える,Think twice.,よく考えて。
+506,under pressure,プレッシャー下で,He works under pressure.,彼はプレッシャーに強い。
+507,up in arms,激怒して,They’re up in arms.,激怒している。
+508,what are the odds,まさか,What are the odds?,まさか。
+509,worth your while,やる価値あり,It’s worth your while.,やる価値がある。
+510,at face value,額面通りに,Don’t take it at face value.,額面通りに受け取るな。
+511,back and forth,行ったり来たり,We went back and forth.,行ったり来たりした。
+512,come to terms with,受け入れる,She came to terms with it.,彼女は受け入れた。
+513,down the line,後々,Down the line, maybe.,後々ね。
+514,get the picture,理解する,Do you get the picture?,分かる？
+515,have your hands full,手一杯,I have my hands full.,手一杯だ。
+516,in good shape,順調,We’re in good shape.,順調だ。
+517,leave no stone unturned,徹底的に探す,We left no stone unturned.,徹底的に探した。
+518,make ends meet,やりくりする,We’re trying to make ends meet.,やりくりしている。
+519,off the hook,責任免除,You’re off the hook.,責任免除だ。
+520,read the room,空気を読む,Read the room.,空気読め。
+521,set the tone,雰囲気を作る,He set the tone.,彼が雰囲気を作った。
+522,stick around,少し残る,Stick around.,少し残って。
+523,take a stand,立場を示す,She took a stand.,彼女は立場を示した。
+524,throw someone under the bus,責任転嫁,He threw me under the bus.,彼は責任を押し付けた。
+525,under your belt,経験済み,Get some wins under your belt.,実績を積め。
+526,up to speed,状況把握,I’m up to speed.,把握している。
+527,walk it back,発言撤回,He walked it back.,彼は発言を撤回した。
+528,with flying colors,大成功で,She passed with flying colors.,大成功で合格した。
+529,you’re on your own,自己責任,You’re on your own.,自己責任だ。
+530,a tough sell,売り込みにくい,It’s a tough sell.,売り込みにくい。
+531,all hands on deck,総出で,All hands on deck.,総出で行こう。
+532,behind schedule,遅れて,We’re behind schedule.,遅れている。
+533,by the book,規則通り,Do it by the book.,規則通りやれ。
+534,cut to the chase,要点に入る,Cut to the chase.,要点に入ろう。
+535,down the stretch,終盤で,Down the stretch, it improved.,終盤で良くなった。
+536,get your act together,ちゃんとする,Get your act together.,ちゃんとしろ。
+537,in the red,赤字で,We’re in the red.,赤字だ。
+538,make a dent,効果を出す,It made a dent.,効果があった。
+539,off base,見当違い,That’s off base.,見当違いだ。
+540,on the table,検討中で,It’s on the table.,検討中だ。
+541,press your luck,調子に乗る,Don’t press your luck.,調子に乗るな。
+542,raise the bar,基準を上げる,We raised the bar.,基準を上げた。
+543,read the fine print,細則を見る,Read the fine print.,細則を読め。
+544,shake things up,変化を起こす,Let’s shake things up.,変化を起こそう。
+545,take a rain check,また今度,Take a rain check.,また今度。
+546,through the roof,急上昇,Prices went through the roof.,価格が急上昇した。
+547,under control,管理下で,It’s under control.,管理下だ。
+548,up for grabs,空いている,Seats are up for grabs.,席が空いている。
+549,way out of line,やりすぎ,That was out of line.,やりすぎだ。
+550,you do the math,察して,You do the math.,察して。
+551,a long way to go,まだ先が長い,We have a long way to go.,まだ先が長い。
+552,all over the place,バラバラ,Things are all over the place.,バラバラだ。
+553,back to square one,振り出しに戻る,We’re back to square one.,振り出しに戻った。
+554,call the shots,主導する,She calls the shots.,彼女が主導している。
+555,down to earth,現実的,He’s very down to earth.,彼はとても現実的だ。
+556,fit the bill,条件に合う,This fits the bill.,条件に合う。
+557,get a grip,落ち着け,Get a grip.,落ち着け。
+558,in the loop,事情通,I’m in the loop.,事情を知っている。
+559,make room for,余地を作る,Make room for change.,変化の余地を作れ。
+560,off to a good start,好調な滑り出し,We’re off to a good start.,好調な滑り出しだ。
+561,pick up the pace,ペースを上げる,Pick up the pace.,ペースを上げよう。
+562,right off the bat,最初から,Right off the bat, yes.,最初からOK。
+563,set things straight,誤解を解く,Let’s set things straight.,誤解を解こう。
+564,take the lead,主導する,She took the lead.,彼女が主導した。
+565,up to par,基準に達する,It’s not up to par.,基準に達していない。
+566,worth noting,注目すべき,It’s worth noting.,注目すべきだ。
+567,all set to,準備万端,We’re all set to go.,出発準備完了。
+568,break even,収支ゼロ,We broke even.,収支トントンだった。
+569,come into play,影響する,That comes into play.,それが影響する。
+570,get the ball rolling,始める,Let’s get the ball rolling.,始めよう。
+571,in a bind,困って,I’m in a bind.,困っている。
+572,keep tabs on,監視する,Keep tabs on it.,様子を見て。
+573,make sense of,理解する,Make sense of this.,これを理解して。
+574,on thin ice,危険な立場,You’re on thin ice.,危険な立場だ。
+575,put two and two together,察する,He put it together.,察した。
+576,rule of thumb,目安,As a rule of thumb…,目安として。
+577,sit on the fence,中立,He’s sitting on the fence.,中立だ。
+578,take a toll,悪影響を与える,It took a toll.,悪影響が出た。
+579,under the weather,体調不良,I’m under the weather.,体調が悪い。
+580,up the ante,条件を上げる,They upped the ante.,条件を上げた。
+581,all said and done,結局,All said and done, yes.,結局OK。
+582,come out ahead,得をする,We came out ahead.,得をした。
+583,cut some slack,大目に見る,Cut him some slack.,大目に見て。
+584,down to business,本題に入る,Let’s get down to business.,本題に入ろう。
+585,get the short end,割を食う,He got the short end.,彼は損をした。
+586,in hot water,まずい状況,He’s in hot water.,まずい状況だ。
+587,make a splash,注目を集める,It made a splash.,注目を集めた。
+588,on the same wavelength,波長が合う,We’re on the same wavelength.,波長が合う。
+589,play hardball,強硬姿勢,They played hardball.,強硬だった。
+590,read the signs,兆候を見る,Read the signs.,兆候を読め。
+591,save face,面目を保つ,He tried to save face.,面目を保とうとした。
+592,straight to the point,要点直行,Straight to the point.,要点だけ言う。
+593,take it or leave it,二者択一,Take it or leave it.,二者択一だ。
+594,under wraps,非公開,Keep it under wraps.,非公開にして。
+595,up to scratch,基準達成,It’s up to scratch.,基準達成だ。
+596,wear thin,我慢の限界,My patience wore thin.,我慢の限界だった。
+597,all over again,また一から,We start all over again.,また一からだ。
+598,back in the game,復帰して,He’s back in the game.,彼は復帰した。
+599,come in handy,役立つ,This will come in handy.,これは役立つ。
+600,cut your losses,損切りする,Time to cut your losses.,損切り時だ。
