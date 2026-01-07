@@ -442,15 +442,33 @@
 
   // Try auto-load CSV from same folder
   (async () => {
-    try {
-      items = await loadCSVFromURL(DEFAULT_CSV_URL);
-      updateStats();
-      renderQuestion();
-    } catch {
-      // Silent fail; user can load via file input
-      updateStats();
+  const urls = [
+    "vocab_001_200.csv",
+    "vocab_201_400.csv",
+    "vocab_401_600.csv",
+    "vocab_601_800.csv",
+    "vocab_801_1000.csv",
+  ];
+
+  try {
+    let merged = [];
+    for (const url of urls) {
+      const part = await loadCSVFromURL(url);
+      merged = merged.concat(part);
     }
-  })();
+
+    // 重複ID除去＆整列
+    const map = new Map();
+    for (const it of merged) map.set(it.id, it);
+    items = Array.from(map.values()).sort((a,b) => a.id - b.id);
+
+    updateStats();
+    renderQuestion();
+  } catch {
+    updateStats();
+  }
+})();
+
 
 })();
 </script>
