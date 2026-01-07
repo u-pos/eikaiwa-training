@@ -11,7 +11,7 @@
       --accent:#22c55e; --blue:#2563eb; --warn:#f59e0b; --danger:#b91c1c;
     }
 
-    /* ===== 横はみ出し根絶（強化版） ===== */
+    /* ===== 横スクロール根絶 ===== */
     html, body{
       width:100%;
       max-width:100%;
@@ -20,12 +20,10 @@
       touch-action: pan-y;
       -webkit-text-size-adjust:100%;
     }
-    body{ position:relative; }
-    *{ box-sizing:border-box; max-width:100%; }
-    /* iOS Safariで稀にoverflow-x:hiddenが効かないケース対策 */
     @supports (overflow: clip){
       html, body{ overflow-x: clip !important; }
     }
+    *{ box-sizing:border-box; max-width:100%; }
 
     body{
       margin:0;
@@ -34,27 +32,26 @@
       color:var(--fg);
     }
 
-    /* iOSの青化/リンク化を殺す */
+    /* iOSの青文字化を殺す */
     a, button, .choice{
       color: var(--fg) !important;
       -webkit-text-fill-color: var(--fg);
       text-decoration:none;
     }
     button{
+      appearance:none; -webkit-appearance:none;
       -webkit-tap-highlight-color: transparent;
-      appearance: none;
-      -webkit-appearance: none;
+      margin:0; /* ← iOSの微妙なはみ出し要因を消す */
     }
 
     .app{
       width:100%;
-      max-width:100%;
       min-height:100vh;
       padding: 10px 10px calc(12px + env(safe-area-inset-bottom));
       display:flex;
       flex-direction:column;
       gap:10px;
-      contain: layout paint; /* はみ出し伝播しにくく */
+      contain: layout paint;
     }
 
     .topbar{
@@ -76,7 +73,6 @@
       font-size:16px;
       font-weight:900;
       line-height:1.1;
-      letter-spacing:.2px;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
@@ -135,9 +131,7 @@
       display:flex;
       flex-direction:column;
       gap:8px;
-      flex:1 1 auto;
-      min-height:0;
-      overflow:hidden; /* 横はみ出しを確実に切る */
+      overflow:hidden;
       contain: layout paint;
     }
 
@@ -150,41 +144,48 @@
       overflow-wrap:anywhere;
     }
 
-    /* ===== 4択（さらにコンパクト化＋はみ出し防止） ===== */
+    /* ✅ ここが本丸：解答前の4択を“伸ばさない” */
     .choices{
       width:100%;
       display:grid;
-      gap:6px;             /* 詰める */
-      flex:1 1 auto;
-      min-height:0;
-      overflow:hidden;     /* 横はみ出しを切る */
+      gap:6px;
+
+      /* ★ 伸びて空き高さを配らない */
+      flex: 0 0 auto;
+
+      /* ★ Gridが勝手に縦伸びするのを止める */
+      align-content: start;           /* ← デフォのstretchを潰す */
+      grid-auto-rows: min-content;    /* ← 行の高さは内容分だけ */
+
+      overflow:hidden;
       contain: paint;
     }
+
     .choice{
       display:block;
       width:100%;
       max-width:100%;
       min-width:0;
 
-      /* 高さを小さく */
-      padding: 8px 10px;   /* さらに小さく */
-      border-radius: 10px; /* 小さく */
+      /* さらに小型化 */
+      padding: 7px 10px;
+      border-radius: 10px;
 
       background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.12);
 
-      font-size: 12.5px;   /* 小さく */
-      line-height: 1.10;   /* 詰める */
+      font-size: 12.5px;
+      line-height: 1.10;
 
       word-break: break-word;
       overflow-wrap:anywhere;
       overflow:hidden;
+      text-align:left;
     }
-    /* iOSでフォーカス枠がはみ出すのも防ぐ */
-    .choice:focus{ outline: none; }
+    .choice:focus{ outline:none; }
     .choice:active{ transform: translateY(1px); }
 
-    /* ===== 答え（ここは“完璧”とのことなので維持） ===== */
+    /* ===== 解答後（ここは維持） ===== */
     .answer{
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.14);
@@ -246,7 +247,7 @@
     .drawer{
       position:fixed;
       top: 10px; right: 10px;
-      width: min(340px, calc(100% - 20px)); /* 100vwを避ける */
+      width: min(340px, calc(100% - 20px));
       max-width: calc(100% - 20px);
       background: var(--card);
       border: 1px solid var(--line);
@@ -273,7 +274,7 @@
 
     @media (max-height: 690px){
       .prompt{ font-size:24px; }
-      .choice{ padding: 7px 9px; font-size: 12px; }
+      .choice{ padding: 6px 9px; font-size: 12px; }
       .btn{ min-height: 34px; padding: 7px 9px; }
     }
   </style>
@@ -328,7 +329,6 @@
     "vocab_601_800.csv",
     "vocab_801_1000.csv",
   ];
-
   const KEY_REVIEW = "vocab_review_ids_v1";
   const KEY_SEEN   = "vocab_seen_ids_v1";
 
@@ -479,9 +479,9 @@
 
     if(!current){
       const mode = el("mode").value;
-      if(mode === "review") el("prompt").textContent = "要復習が空です";
-      else if(mode === "unseen") el("prompt").textContent = "未出題がありません";
-      else el("prompt").textContent = "出題できません";
+      el("prompt").textContent =
+        mode === "review" ? "要復習が空です" :
+        mode === "unseen" ? "未出題がありません" : "出題できません";
       refreshReviewButton();
       return;
     }
@@ -527,17 +527,13 @@
       </div>
 
       <div class="answerBlock">
-        <span class="k">例文（EN）</span><br>
-        ${escapeHTML(current.example_en)}
+        <span class="k">例文（EN）</span><br>${escapeHTML(current.example_en)}
       </div>
 
       <div class="answerBlock">
-        <span class="k">例文（JA）</span><br>
-        ${escapeHTML(current.example_ja)}
+        <span class="k">例文（JA）</span><br>${escapeHTML(current.example_ja)}
       </div>
     `;
-
-    setTimeout(() => el("answer").scrollIntoView({ behavior:"smooth", block:"nearest" }), 20);
   }
 
   function toggleReview(){
@@ -562,7 +558,6 @@
     if(el("mode").value === "unseen") renderQuestion();
   }
 
-  // Drawer
   function openDrawer(){
     el("drawerOverlay").style.display = "block";
     el("drawer").style.display = "block";
@@ -571,30 +566,18 @@
     el("drawerOverlay").style.display = "none";
     el("drawer").style.display = "none";
   }
+
   el("btnMenu").onclick = openDrawer;
   el("drawerOverlay").onclick = closeDrawer;
   el("btnCloseMenu").onclick = closeDrawer;
 
-  // UI
   el("btnNext").onclick = renderQuestion;
   el("btnToggleReview").onclick = toggleReview;
 
-  el("mode").onchange = () => {
-    closeDrawer();
-    renderQuestion();
-  };
+  el("mode").onchange = () => { closeDrawer(); renderQuestion(); };
+  el("btnClearReview").onclick = () => { if(confirm("復習リストを全解除します。OK？")) clearReview(); closeDrawer(); };
+  el("btnResetSeen").onclick = () => { if(confirm("未出題（出題履歴）をリセットします。OK？")) resetSeen(); closeDrawer(); };
 
-  el("btnClearReview").onclick = () => {
-    if(confirm("復習リストを全解除します。OK？")) clearReview();
-    closeDrawer();
-  };
-
-  el("btnResetSeen").onclick = () => {
-    if(confirm("未出題（出題履歴）をリセットします。OK？")) resetSeen();
-    closeDrawer();
-  };
-
-  // Boot
   (async () => {
     try{
       setStatus("読み込み中…");
